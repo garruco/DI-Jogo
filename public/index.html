@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ecrã Partilhado</title>
+  </head>
+  <body>
+    <h1>Ecrã Partilhado</h1>
+    <div id="minimapa">Mini Mapa Aqui</div>
+    <div id="info">Informações Comuns Aqui</div>
+    <div id="gameUpdates">Aguardando movimentos...</div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io.connect();
+
+      socket.on("updateGame", function (data) {
+        document.getElementById("gameUpdates").innerText = data.message;
+      });
+    </script>
+  </body>
+</html>

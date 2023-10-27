@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interface do Telemóvel</title>
+  </head>
+  <body>
+    <h1>Interface do Jogador</h1>
+    <!-- Adicione mais botões conforme necessário -->
+    <button id="moveButton">Mover Personagem</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io.connect();
+
+      document
+        .getElementById("moveButton")
+        .addEventListener("click", function () {
+          // Enviar evento de movimento ao servidor
+          socket.emit("move", { action: "moveCharacter", direction: "right" });
+        });
+    </script>
+  </body>
+</html>
