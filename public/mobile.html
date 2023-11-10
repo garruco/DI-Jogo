@@ -7,12 +7,21 @@
   </head>
   <body>
     <h1>Interface do Jogador</h1>
-    <!-- Adicione mais botões conforme necessário -->
-    <button id="moveButton">Mover Personagem</button>
+    <button onclick="move(0, 1)">Mover para Sala 1</button>
+    <button onclick="move(1, 1)">Mover para Sala 2</button>
+    <button onclick="move(2, 1)">Mover para Sala 3</button>
+    <button onclick="move(3, 1)">Mover para Sala 4</button>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io.connect();
+      const colorElement = document
+        .getElementById("playerColor")
+        .querySelector("span");
+
+      socket.on("yourColor", function (color) {
+        colorElement.textContent = color;
+      });
 
       document
         .getElementById("moveButton")
@@ -20,6 +29,9 @@
           // Enviar evento de movimento ao servidor
           socket.emit("move", { action: "moveCharacter", direction: "right" });
         });
+      function move(x, y) {
+        socket.emit("move", { x, y });
+      }
     </script>
   </body>
 </html>

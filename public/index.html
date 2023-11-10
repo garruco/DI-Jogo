@@ -4,10 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ecrã Partilhado</title>
+    <style>
+      .sala {
+        width: 100px;
+        height: 100px;
+        border: 1px solid black;
+        float: left;
+        margin: 5px;
+      }
+      .player {
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        position: absolute;
+      }
+    </style>
   </head>
   <body>
     <h1>Ecrã Partilhado</h1>
-    <div id="minimapa">Mini Mapa Aqui</div>
+    <div id="minimapa">
+      <div class="sala" id="sala1"></div>
+      <div class="sala" id="sala2"></div>
+      <div class="sala" id="sala3"></div>
+      <div class="sala" id="sala4"></div>
+    </div>
     <div id="info">Informações Comuns Aqui</div>
     <div id="gameUpdates">Aguardando movimentos...</div>
 
@@ -16,7 +36,18 @@
       const socket = io.connect();
 
       socket.on("updateGame", function (data) {
-        document.getElementById("gameUpdates").innerText = data.message;
+        // Atualizar posições dos jogadores
+        for (const [playerId, position] of Object.entries(data.players)) {
+          let playerElement = document.getElementById(`player-${playerId}`);
+          if (!playerElement) {
+            playerElement = document.createElement("div");
+            playerElement.id = `player-${playerId}`;
+            playerElement.className = "player";
+            document.getElementById("minimapa").appendChild(playerElement);
+          }
+          playerElement.style.left = `${6 + position.x * 100}px`;
+          playerElement.style.top = `${position.y * 100}px`;
+        }
       });
     </script>
   </body>
