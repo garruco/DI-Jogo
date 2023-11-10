@@ -45,8 +45,10 @@
             playerElement.className = "player";
             document.getElementById("minimapa").appendChild(playerElement);
           }
-          playerElement.style.left = `${6 + position.x * 100}px`;
-          playerElement.style.top = `${position.y * 100}px`;
+          playerElement.style.left = `${
+            13 + position.x * 13 + position.x * 100
+          }px`;
+          playerElement.style.top = `${88 + position.y * 100}px`;
         }
       });
     </script>
