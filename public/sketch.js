@@ -1,5 +1,6 @@
 let x;
 let y;
+let i;
 let roomID = [];
 let itens = [];
 let players = [];
@@ -9,6 +10,7 @@ function setup() {
 
   const socket = io.connect();
 
+  //mover
   socket.on("updateGame", function (data) {
     // Atualizar posições dos jogadores
     for (const [playerId, position] of Object.entries(data.players)) {
@@ -152,9 +154,11 @@ class item {
     }
   }
 
-  guardar(newPlayerID) {
-    this.roomID = 0;
-    this.playerID = newPlayerID;
+  guardar(newPlayerID, playerRoom) {
+    if (playerRoom == this.roomID) {
+      this.roomID = 0;
+      this.playerID = newPlayerID;
+    }
   }
 
   largar(newRoomID) {
@@ -162,12 +166,16 @@ class item {
     this.playerID = 0;
   }
 
-  encontrar() {
-    this.visibility = true;
+  encontrar(playerRoom) {
+    if (playerRoom == this.roomID) {
+      this.visibility = true;
+    }
   }
 
-  esconder() {
-    this.visibility = false;
+  esconder(playerRoom) {
+    if (playerRoom == this.roomID) {
+      this.visibility = false;
+    }
   }
 }
 

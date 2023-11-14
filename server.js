@@ -43,6 +43,7 @@ io.on("connection", (socket) => {
 
   io.emit("updateScreen", { players });
 
+  //mover
   socket.on("move", (data) => {
     if (players[socket.id]) {
       players[socket.id].x = data.x;
