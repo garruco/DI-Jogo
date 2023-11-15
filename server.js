@@ -60,15 +60,33 @@ io.on("connection", (socket) => {
   //GUI - Aqui este .x e meio burro, nao sei pq e que e preciso ngl mas so com ele e que funciona
   socket.on("move", (data) => {
     if (players[socket.id]) {
-      players[socket.id].sala = data.x;
-      console.log("O jogador" + socket.id + "moveu-se para a sala" + data.x);
+      players[socket.id].sala = data.sala;
+      console.log("O jogador" + socket.id + "moveu-se para a sala" + data.sala);
       io.emit("updateGame", { players });
     }
   });
 
   socket.on("pickup", (data) => {
     if (players[socket.id]) {
-      //GUI - Incompleto, fiquei stumped aqui.
+      io.emit("pickup", players[socket.id]);
+    }
+  });
+
+  socket.on("drop", (data) => {
+    if (players[socket.id]) {
+      io.emit("drop", players[socket.id]);
+    }
+  });
+
+  socket.on("search", (data) => {
+    if (players[socket.id]) {
+      io.emit("search", players[socket.id]);
+    }
+  });
+
+  socket.on("hide", (data) => {
+    if (players[socket.id]) {
+      io.emit("hide", players[socket.id]);
     }
   });
 

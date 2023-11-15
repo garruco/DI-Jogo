@@ -45,6 +45,22 @@ function setup() {
     atual = 0;
   });
 
+  socket.on("pickup", function (data) {
+    console.log("Player " + data.playerID + " quer apanhar.");
+  });
+
+  socket.on("drop", function (data) {
+    console.log("DROP");
+  });
+
+  socket.on("search", function (data) {
+    console.log("SEARCH");
+  });
+
+  socket.on("hide", function (data) {
+    console.log("HIDE");
+  });
+
   //Instancia cada um dos itens
   for (let i = 0; i < 4; i++) {
     //GUI - Aqui vale a pena indexar os IDs a partir do 1? Ou era melhor fazer a partir de 0?

@@ -13,10 +13,10 @@
     <button onclick="move(2)">Mover para Sala 3</button>
     <button onclick="move(3)">Mover para Sala 4</button>
     <button onclick="move(4)">Mover para Sala 5</button>
-    <button onclick="">Guardar Item</button>
-    <button onclick="">Largar Item</button>
-    <button onclick="">Procurar Item</button>
-    <button onclick="">Esconder Item</button>
+    <button onclick="pickup()">Guardar Item</button>
+    <button onclick="drop">Largar Item</button>
+    <button onclick="search">Procurar Item</button>
+    <button onclick="hide">Esconder Item</button>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -29,14 +29,29 @@
         colorElement.textContent = color;
       });
 
-      document
-        .getElementById("moveButton")
-        .addEventListener("click", function () {
-          // Enviar evento de movimento ao servidor
-          socket.emit("move", { action: "moveCharacter", direction: "right" });
-        });
-      function move(x, y) {
-        socket.emit("move", { x, y });
+      //Mover
+      function move(sala) {
+        socket.emit("move", { sala });
+      }
+
+      //Guardar
+      function pickup() {
+        socket.emit("pickup");
+      }
+
+      //Largar
+      function drop() {
+        socket.emit("drop");
+      }
+
+      //Procurar
+      function search() {
+        socket.emit("search");
+      }
+
+      //Esconder
+      function hide() {
+        socket.emit("hide");
       }
     </script>
   </body>
