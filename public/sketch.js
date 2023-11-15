@@ -107,28 +107,28 @@ class item {
     //Na planta
 
     //Ainda preciso de rever isto, poupa imenso código mas depois ainda temos de fazer offsets individuais para cada sala
-    x = salaX[this.currentRoom];
-    y = salaY[this.currentRoom];
 
     if (this.owner == -1 && this.visibility == true) {
+      x = salaX[this.currentRoom];
+      y = salaY[this.currentRoom];
       fill(colour);
       circle(x, y, 50);
     }
 
     //No Inventário
 
-    if (this.owner == 1) {
-      x = 100;
-      y = 20;
-    } else if (this.owner == 2) {
-      x = 100;
-      y = 60;
-    } else if (this.owner == 3) {
-      x = 100;
-      y = 80;
-    }
-
     if (this.owner != -1) {
+      if (this.owner == 0) {
+        x = 700;
+        y = 100;
+      } else if (this.owner == 1) {
+        x = 700;
+        y = 200;
+      } else if (this.owner == 2) {
+        x = 700;
+        y = 300;
+      }
+
       fill(colour);
       circle(x, y, 50);
     }
@@ -136,14 +136,14 @@ class item {
 
   guardar(newPlayerID, playerRoom) {
     if (playerRoom == this.currentRoom) {
-      this.currentRoom = 0;
-      this.playerID = newPlayerID;
+      this.currentRoom = -1;
+      this.owner = newPlayerID;
     }
   }
 
   largar(newRoomID) {
     this.currentRoom = newRoomID;
-    this.playerID = 0;
+    this.owner = -1;
   }
 
   encontrar(playerRoom) {
