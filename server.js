@@ -48,20 +48,18 @@ io.on("connection", (socket) => {
   //GUI - Este socket id dava jeito para passar para o frontend e atribuir como controlador individual de cada boneco
   players[socket.id] = {
     playerID: socket.id,
-    sala: 0,
-    x: 0,
-    y: 0,
+    sala: 1,
     color: playerColor,
   };
 
   //Envia entrada do player para o frontend
+  //GUI - Neste momento isto não vai para lado nenhum!!
   io.emit("updateScreen", { players });
 
   //mover
+  //GUI - Aqui este .x e meio burro, nao sei pq e que e preciso ngl mas so com ele e que funciona
   socket.on("move", (data) => {
     if (players[socket.id]) {
-      players[socket.id].x = data.x;
-      players[socket.id].y = data.y;
       players[socket.id].sala = data.x;
       console.log("O jogador" + socket.id + "moveu-se para a sala" + data.x);
       io.emit("updateGame", { players });

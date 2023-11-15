@@ -3,10 +3,11 @@ let y;
 let sala;
 let i;
 let currentRoom = [];
+let salas = [];
 let itens = [];
 let players = [];
 
-let atual;
+let atual = 0;
 
 //Array com a posicao fixa de cada sala
 let salaX = [150, 225, 275, 525, 525];
@@ -33,34 +34,32 @@ function setup() {
   socket.on("updateGame", function (data) {
     // Atualiza posições dos jogadores
     //GUI - Não entendo bem esta cena aqui do const e tal, preciso de uma explicação; se o apagar o código funciona igual somehow
-    for (const [playerId, position] of Object.entries(data.players)) {
-      x = position.x * 100;
-      y = position.y * 100;
-      sala = position.sala;
-      currentRoom[atual] = sala;
+    for (const [burriceburra, player] of Object.entries(data.players)) {
+      //Se nao e o partilhado
+      if (atual != 0) {
+        //Atualiza a posicao de todos os players: P1 = [0], P2 = [1], ...
+        currentRoom[atual - 1] = player.sala;
+      }
       atual++;
     }
-    //console.log(data);
     atual = 0;
   });
 
   //Instancia cada um dos itens
   for (let i = 0; i < 4; i++) {
     //GUI - Aqui vale a pena indexar os IDs a partir do 1? Ou era melhor fazer a partir de 0?
-    itens.push(new item(i + 1, i + 1, 0));
+    itens.push(new item(i, i, 0));
   }
 
-  //GUI - Este array currentRoom serve para quê? Não podia estar dentro da própria classe e ser acedido por lá?
   //Room IDs dos Players
   for (let i = 0; i < 3; i++) {
-    currentRoom.push(i + 1);
-    //console.log(currentRoom[i]);
+    currentRoom.push(1);
   }
 
   //Instancia os 3 players
   for (let i = 0; i < 3; i++) {
     //GUI - Idem quanto à indexação, só um small issue
-    players.push(new player(i + 1, i + 1, currentRoom[i]));
+    players.push(new player(i, i, 0));
   }
 }
 
@@ -68,47 +67,6 @@ function draw() {
   background(220);
 
   image(planta, 0, 0, 800, 800);
-
-  //movimento dos jogadores (x é = ao ID da sala, y é = ao ID do player)
-  /*
-  if (y == 100) {
-    if (x == 0) {
-      currentRoom[0] = 1;
-    } else if (x == 100) {
-      currentRoom[0] = 2;
-    } else if (x == 200) {
-      currentRoom[0] = 3;
-    } else if (x == 300) {
-      currentRoom[0] = 4;
-    } else if (x == 400) {
-      currentRoom[0] = 5;
-    }
-  } else if (y == 200) {
-    if (x == 0) {
-      currentRoom[1] = 1;
-    } else if (x == 100) {
-      currentRoom[1] = 2;
-    } else if (x == 200) {
-      currentRoom[1] = 3;
-    } else if (x == 300) {
-      currentRoom[1] = 4;
-    } else if (x == 400) {
-      currentRoom[1] = 5;
-    }
-  } else if (y == 300) {
-    if (x == 0) {
-      currentRoom[2] = 1;
-    } else if (x == 100) {
-      currentRoom[2] = 2;
-    } else if (x == 200) {
-      currentRoom[2] = 3;
-    } else if (x == 300) {
-      currentRoom[2] = 4;
-    } else if (x == 400) {
-      currentRoom[2] = 5;
-    }
-  }
-  */
 
   //Desenha os players na sua sala atual
   for (let i = 0; i < players.length; i++) {
@@ -123,8 +81,8 @@ function draw() {
 
 //classe Itens de Jogo
 class item {
-  constructor(itemID, currentRoom, playerID) {
-    this.playerID = playerID;
+  constructor(itemID, currentRoom, owner) {
+    this.owner = owner;
     this.currentRoom = currentRoom;
     this.itemID = itemID;
 
@@ -136,57 +94,41 @@ class item {
     let y;
     let colour;
 
-    if (this.itemID == 1) {
+    if (this.itemID == 0) {
       colour = "green";
-    } else if (this.itemID == 2) {
+    } else if (this.itemID == 1) {
       colour = "red";
-    } else if (this.itemID == 3) {
+    } else if (this.itemID == 2) {
       colour = "blue";
-    } else if (this.itemID == 4) {
+    } else if (this.itemID == 3) {
       colour = "yellow";
     }
 
     //Na planta
-    if (this.currentRoom == 1) {
-      x = 200;
-      y = 200;
-    } else if (this.currentRoom == 2) {
-      x = 600;
-      y = 600;
-    } else if (this.currentRoom == 3) {
-      x = 450;
-      y = 70;
-    } else if (this.currentRoom == 4) {
-      x = 700;
-      y = 40;
-    } else if (this.currentRoom == 5) {
-      x = 500;
-      y = 100;
-    }
 
     //Ainda preciso de rever isto, poupa imenso código mas depois ainda temos de fazer offsets individuais para cada sala
-    //x = salaX[this.currentRoom];
-    //y = salaY[this.currentRoom];
+    x = salaX[this.currentRoom];
+    y = salaY[this.currentRoom];
 
-    if (this.currentRoom != 0 && this.visibility == true) {
+    if (this.owner == -1 && this.visibility == true) {
       fill(colour);
       circle(x, y, 50);
     }
 
     //No Inventário
 
-    if (this.playerID == 1) {
+    if (this.owner == 1) {
       x = 100;
       y = 20;
-    } else if (this.playerID == 2) {
+    } else if (this.owner == 2) {
       x = 100;
       y = 60;
-    } else if (this.playerID == 3) {
+    } else if (this.owner == 3) {
       x = 100;
       y = 80;
     }
 
-    if (this.playerID != 0) {
+    if (this.owner != -1) {
       fill(colour);
       circle(x, y, 50);
     }
@@ -225,45 +167,17 @@ class player {
     this.colourID = colourID;
   }
 
-  displayTeste(xValue, yValue) {
-    this.x = xValue;
-    this.y = yValue;
-    fill("pink");
-    rect(x, y, 80, 80);
-  }
-
   display(newRoomID) {
-    let x;
-    let y;
     let colour;
     this.currentRoom = newRoomID;
 
-    if (this.playerID == 1) {
+    if (this.playerID == 0) {
       colour = "pink";
-    } else if (this.playerID == 2) {
+    } else if (this.playerID == 1) {
       colour = "purple";
-    } else if (this.playerID == 3) {
+    } else if (this.playerID == 2) {
       colour = "blue";
     }
-
-    /*
-    if (this.currentRoom == 1) {
-      x = 190;
-      y = 200;
-    } else if (this.currentRoom == 2) {
-      x = 290;
-      y = 200;
-    } else if (this.currentRoom == 3) {
-      x = 390;
-      y = 200;
-    } else if (this.currentRoom == 4) {
-      x = 490;
-      y = 200;
-    } else if (this.currentRoom == 5) {
-      x = 590;
-      y = 200;
-    }
-    */
 
     //Esta cena do '-1' nao precisa de estar aqui se indexarmos os ids a partir de 0 em vez de comecar em 1
     x = salaX[this.currentRoom];
