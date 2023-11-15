@@ -3,6 +3,7 @@ let y;
 let sala;
 let i;
 let currentRoom = [];
+let playerID = [];
 let salas = [];
 let itens = [];
 let players = [];
@@ -39,6 +40,10 @@ function setup() {
       if (atual != 0) {
         //Atualiza a posicao de todos os players: P1 = [0], P2 = [1], ...
         currentRoom[atual - 1] = player.sala;
+
+        //PIPA - O Array 2D permite-nos associar a cada player um número (para ser mais fácil nas classes) e o ID atribuido ao player
+        playerID[atual - 1] = [atual - 1, player.playerID];
+        //console.log(playerID[atual - 1]);
       }
       atual++;
     }
@@ -64,7 +69,7 @@ function setup() {
   //Instancia cada um dos itens
   for (let i = 0; i < 4; i++) {
     //GUI - Aqui vale a pena indexar os IDs a partir do 1? Ou era melhor fazer a partir de 0?
-    itens.push(new item(i, i, 0));
+    itens.push(new item(i, i, -1));
   }
 
   //Room IDs dos Players
@@ -72,10 +77,17 @@ function setup() {
     currentRoom.push(1);
   }
 
+  //Room IDs dos Players
+  for (let i = 0; i < 3; i++) {
+    playerID.push([i, 0]);
+  }
+
+  console.log(playerID);
+
   //Instancia os 3 players
   for (let i = 0; i < 3; i++) {
     //GUI - Idem quanto à indexação, só um small issue
-    players.push(new player(i, i, 0));
+    players.push(new player(playerID[i][0], i, 0));
   }
 }
 
@@ -150,10 +162,10 @@ class item {
     }
   }
 
-  guardar(newPlayerID, playerRoom) {
+  guardar(newOwner, playerRoom) {
     if (playerRoom == this.currentRoom) {
       this.currentRoom = -1;
-      this.owner = newPlayerID;
+      this.owner = newOwner;
     }
   }
 
