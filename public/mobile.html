@@ -20,7 +20,7 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      const socket = io.connect();
+          const socket = io.connect('http://endereço-ip:3000');
       const colorElement = document
         .getElementById("playerColor")
         .querySelector("span");
