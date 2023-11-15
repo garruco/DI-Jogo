@@ -1,3 +1,5 @@
+//Mas das push ou nao?
+
 let x;
 let y;
 let sala;
