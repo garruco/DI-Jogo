@@ -46,6 +46,7 @@ function setup() {
       if (atual != 0) {
         //Atualiza a posicao de todos os players: P1 = [0], P2 = [1], ...
         currentRoom[atual - 1] = player.sala;
+        currentItemAction[atual - 1] = player.action;
 
         //PIPA - O Array 2D permite-nos associar a cada player um número (para ser mais fácil nas classes) e o ID atribuido ao player
         playerID[atual - 1] = [atual - 1, player.playerID];

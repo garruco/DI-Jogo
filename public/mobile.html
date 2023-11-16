@@ -8,11 +8,11 @@
   <body>
     <h1>Interface do Jogador</h1>
     <h4>Player 1</h4>
-    <button onclick="move(0)">Mover para Sala 1</button>
-    <button onclick="move(1)">Mover para Sala 2</button>
-    <button onclick="move(2)">Mover para Sala 3</button>
-    <button onclick="move(3)">Mover para Sala 4</button>
-    <button onclick="move(4)">Mover para Sala 5</button>
+    <button onclick="move(0,4)">Mover para Sala 1</button>
+    <button onclick="move(1,4)">Mover para Sala 2</button>
+    <button onclick="move(2,4)">Mover para Sala 3</button>
+    <button onclick="move(3,4)">Mover para Sala 4</button>
+    <button onclick="move(4,4)">Mover para Sala 5</button>
     <button onclick="pickup(0)">Guardar Item</button>
     <button onclick="drop(1)">Largar Item</button>
     <button onclick="search(2)">Procurar Item</button>
@@ -30,8 +30,8 @@
       });
 
       //Mover
-      function move(sala) {
-        socket.emit("move", { sala });
+      function move(sala, action) {
+        socket.emit("move", { sala, action });
       }
 
       //Guardar

@@ -62,6 +62,7 @@ io.on("connection", (socket) => {
   socket.on("move", (data) => {
     if (players[socket.id]) {
       players[socket.id].sala = data.sala;
+      players[socket.id].action = data.action;
       console.log("O jogador" + socket.id + "moveu-se para a sala" + data.sala);
       io.emit("updateGame", { players });
     }
