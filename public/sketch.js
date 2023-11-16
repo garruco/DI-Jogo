@@ -3,12 +3,18 @@ let y;
 let sala;
 let i;
 let currentRoom = [];
+let currentItemAction = [];
 let playerID = [];
 let salas = [];
 let itens = [];
 let players = [];
 
 let atual = 0;
+
+let guardar = 0;
+let largar = 0;
+let esconder = 0;
+let procurar = 0;
 
 //Array com a posicao fixa de cada sala
 let salaX = [150, 225, 275, 525, 525];
@@ -51,19 +57,65 @@ function setup() {
   });
 
   socket.on("pickup", function (data) {
-    console.log("Player " + data.playerID + " quer apanhar.");
+    //console.log("Player " + data.playerID + " quer apanhar.");
+    //console.log(data.action);
+    for (const [burriceburra, player] of Object.entries(data.players)) {
+      //Se nao e o partilhado
+      if (guardar != 0) {
+        //Atualiza a ação (itens) de todos os players: P1 = [0], P2 = [1], ...
+        currentItemAction[guardar - 1] = player.action;
+      }
+      guardar++;
+    }
+    guardar = 0;
+    console.log(currentItemAction);
   });
 
   socket.on("drop", function (data) {
-    console.log("DROP");
+    //console.log("DROP");
+    //console.log(data.action);
+    for (const [burriceburra, player] of Object.entries(data.players)) {
+      //Se nao e o partilhado
+      if (largar != 0) {
+        //Atualiza a ação (itens) de todos os players: P1 = [0], P2 = [1], ...
+        currentItemAction[largar - 1] = player.action;
+      }
+      largar++;
+    }
+    largar = 0;
+    console.log(currentItemAction);
   });
 
   socket.on("search", function (data) {
     console.log("SEARCH");
+    //console.log("Player " + data.playerID + " quer apanhar.");
+    console.log(data.action);
+    for (const [burriceburra, player] of Object.entries(data.players)) {
+      //Se nao e o partilhado
+      if (procurar != 0) {
+        //Atualiza a ação (itens) de todos os players: P1 = [0], P2 = [1], ...
+        currentItemAction[procurar - 1] = player.action;
+      }
+      procurar++;
+    }
+    procurar = 0;
+    console.log(currentItemAction);
   });
 
   socket.on("hide", function (data) {
-    console.log("HIDE");
+    //console.log("HIDE");
+    //console.log("Player " + data.playerID + " quer apanhar.");
+    //console.log(data.action);
+    for (const [burriceburra, player] of Object.entries(data.players)) {
+      //Se nao e o partilhado
+      if (esconder != 0) {
+        //Atualiza a ação (itens) de todos os players: P1 = [0], P2 = [1], ...
+        currentItemAction[esconder - 1] = player.action;
+      }
+      esconder++;
+    }
+    esconder = 0;
+    console.log(currentItemAction);
   });
 
   //Instancia cada um dos itens
@@ -77,16 +129,18 @@ function setup() {
     currentRoom.push(1);
   }
 
+  //Action IDs dos Players (ultima ação realizada)
+  for (let i = 0; i < 3; i++) {
+    currentItemAction.push(4);
+  }
+
   //Room IDs dos Players
   for (let i = 0; i < 3; i++) {
     playerID.push([i, 0]);
   }
 
-  console.log(playerID);
-
   //Instancia os 3 players
   for (let i = 0; i < 3; i++) {
-    //GUI - Idem quanto à indexação, só um small issue
     players.push(new player(playerID[i][0], i, 0));
   }
 }
@@ -105,13 +159,39 @@ function draw() {
   for (let i = 0; i < itens.length; i++) {
     itens[i].display();
   }
+
+  //Ações com itens
+  // Verificar todos os pares player-item para ver quais partilham a mesma sala
+  for (let i = 0; i < itens.length; i++) {
+    for (let j = 0; j < players.length; j++) {
+      //guardar
+      if (currentItemAction[j] == 0 && itens[i].owner == -1) {
+        itens[i].guardar(j, currentRoom[j]);
+      }
+
+      //largar
+      if (currentItemAction[j] == 1 && itens[i].itemCurrentRoom == -1) {
+        itens[i].largar(currentRoom[j]);
+      }
+
+      //procurar
+      if (currentItemAction[j] == 2) {
+        itens[i].encontrar(currentRoom[j]);
+      }
+
+      //esconder
+      if (currentItemAction[j] == 3) {
+        itens[i].esconder(currentRoom[j]);
+      }
+    }
+  }
 }
 
 //classe Itens de Jogo
 class item {
-  constructor(itemID, currentRoom, owner) {
+  constructor(itemID, itemCurrentRoom, owner) {
     this.owner = owner;
-    this.currentRoom = currentRoom;
+    this.itemCurrentRoom = itemCurrentRoom;
     this.itemID = itemID;
 
     this.visibility = true;
@@ -137,8 +217,8 @@ class item {
     //Ainda preciso de rever isto, poupa imenso código mas depois ainda temos de fazer offsets individuais para cada sala
 
     if (this.owner == -1 && this.visibility == true) {
-      x = salaX[this.currentRoom];
-      y = salaY[this.currentRoom];
+      x = salaX[this.itemCurrentRoom];
+      y = salaY[this.itemCurrentRoom];
       fill(colour);
       circle(x, y, 50);
     }
@@ -163,25 +243,25 @@ class item {
   }
 
   guardar(newOwner, playerRoom) {
-    if (playerRoom == this.currentRoom) {
-      this.currentRoom = -1;
+    if (playerRoom == this.itemCurrentRoom) {
+      this.itemCurrentRoom = -1;
       this.owner = newOwner;
     }
   }
 
-  largar(newRoomID) {
-    this.currentRoom = newRoomID;
+  largar(playerRoom) {
+    this.itemCurrentRoom = playerRoom;
     this.owner = -1;
   }
 
   encontrar(playerRoom) {
-    if (playerRoom == this.currentRoom) {
+    if (playerRoom == this.itemCurrentRoom && this.visibility == false) {
       this.visibility = true;
     }
   }
 
   esconder(playerRoom) {
-    if (playerRoom == this.currentRoom) {
+    if (playerRoom == this.itemCurrentRoom && this.visibility == true) {
       this.visibility = false;
     }
   }

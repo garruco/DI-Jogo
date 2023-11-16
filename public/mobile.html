@@ -13,10 +13,10 @@
     <button onclick="move(2)">Mover para Sala 3</button>
     <button onclick="move(3)">Mover para Sala 4</button>
     <button onclick="move(4)">Mover para Sala 5</button>
-    <button onclick="pickup()">Guardar Item</button>
-    <button onclick="drop()">Largar Item</button>
-    <button onclick="search()">Procurar Item</button>
-    <button onclick="hide()">Esconder Item</button>
+    <button onclick="pickup(0)">Guardar Item</button>
+    <button onclick="drop(1)">Largar Item</button>
+    <button onclick="search(2)">Procurar Item</button>
+    <button onclick="hide(3)">Esconder Item</button>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -35,23 +35,23 @@
       }
 
       //Guardar
-      function pickup() {
-        socket.emit("pickup");
+      function pickup(action) {
+        socket.emit("pickup", { action });
       }
 
       //Largar
-      function drop() {
-        socket.emit("drop");
+      function drop(action) {
+        socket.emit("drop", { action });
       }
 
       //Procurar
-      function search() {
-        socket.emit("search");
+      function search(action) {
+        socket.emit("search", { action });
       }
 
       //Esconder
-      function hide() {
-        socket.emit("hide");
+      function hide(action) {
+        socket.emit("hide", { action });
       }
     </script>
   </body>

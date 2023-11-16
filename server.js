@@ -49,6 +49,7 @@ io.on("connection", (socket) => {
   players[socket.id] = {
     playerID: socket.id,
     sala: 1,
+    action: 3,
     color: playerColor,
   };
 
@@ -68,25 +69,29 @@ io.on("connection", (socket) => {
 
   socket.on("pickup", (data) => {
     if (players[socket.id]) {
-      io.emit("pickup", players[socket.id]);
+      players[socket.id].action = data.action;
+      io.emit("pickup", { players });
     }
   });
 
   socket.on("drop", (data) => {
     if (players[socket.id]) {
-      io.emit("drop", players[socket.id]);
+      players[socket.id].action = data.action;
+      io.emit("drop", { players });
     }
   });
 
   socket.on("search", (data) => {
     if (players[socket.id]) {
-      io.emit("search", players[socket.id]);
+      players[socket.id].action = data.action;
+      io.emit("search", { players });
     }
   });
 
   socket.on("hide", (data) => {
     if (players[socket.id]) {
-      io.emit("hide", players[socket.id]);
+      players[socket.id].action = data.action;
+      io.emit("hide", { players });
     }
   });
 
