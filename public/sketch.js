@@ -42,19 +42,24 @@ function setup() {
     // Atualiza posições dos jogadores
     //GUI - Não entendo bem esta cena aqui do const e tal, preciso de uma explicação; se o apagar o código funciona igual somehow
     for (const [burriceburra, player] of Object.entries(data.players)) {
+      //
       //Se nao e o partilhado
       if (atual != 0) {
-        //Atualiza a posicao de todos os players: P1 = [0], P2 = [1], ...
+        //
+        //Atualiza no array a posicao de todos os players: P1 = [0], P2 = [1], ...
         currentRoom[atual - 1] = player.sala;
+
+        //Recebe a acao tomada por cada player
         currentItemAction[atual - 1] = player.action;
 
         //PIPA - O Array 2D permite-nos associar a cada player um número (para ser mais fácil nas classes) e o ID atribuido ao player
         playerID[atual - 1] = [atual - 1, player.playerID];
-        //console.log(playerID[atual - 1]);
       }
       atual++;
     }
     atual = 0;
+
+    console.log(currentRoom);
   });
 
   socket.on("pickup", function (data) {
@@ -88,9 +93,8 @@ function setup() {
   });
 
   socket.on("search", function (data) {
-    console.log("SEARCH");
-    //console.log("Player " + data.playerID + " quer apanhar.");
-    console.log(data.action);
+    //console.log("SEARCH");
+    //console.log(data.action);
     for (const [burriceburra, player] of Object.entries(data.players)) {
       //Se nao e o partilhado
       if (procurar != 0) {
@@ -105,7 +109,6 @@ function setup() {
 
   socket.on("hide", function (data) {
     //console.log("HIDE");
-    //console.log("Player " + data.playerID + " quer apanhar.");
     //console.log(data.action);
     for (const [burriceburra, player] of Object.entries(data.players)) {
       //Se nao e o partilhado
@@ -121,12 +124,13 @@ function setup() {
 
   //Instancia cada um dos itens
   for (let i = 0; i < 4; i++) {
-    //GUI - Aqui vale a pena indexar os IDs a partir do 1? Ou era melhor fazer a partir de 0?
+    //Cada item começa sem owner (owner = -1)
     itens.push(new item(i, i, -1));
   }
 
   //Room IDs dos Players
   for (let i = 0; i < 3; i++) {
+    //Todos os players começam na mesma sala
     currentRoom.push(1);
   }
 
@@ -137,11 +141,13 @@ function setup() {
 
   //Room IDs dos Players
   for (let i = 0; i < 3; i++) {
+    //O array de players começa com os placeholders, mas sem o respetivo socket id
     playerID.push([i, 0]);
   }
 
   //Instancia os 3 players
   for (let i = 0; i < 3; i++) {
+    //GUI - Aqui na proxima meta podemos enviar todo este playerID para dentro da classe, e la depois usar o que der jeito
     players.push(new player(playerID[i][0], i, 0));
   }
 }
@@ -154,7 +160,15 @@ function draw() {
   //Desenha os players na sua sala atual
   for (let i = 0; i < players.length; i++) {
     players[i].display(currentRoom[i]);
+
+    if (frameCount === 300) {
+      console.log(players);
+      console.log(currentRoom);
+      console.log();
+    }
   }
+
+  //GUI - Aqui porque é que os itens nao seguem a mesma logica de cima de dar plug ao currentRoom?
 
   //Desenha os itens na sua sala atual
   for (let i = 0; i < itens.length; i++) {
@@ -170,6 +184,17 @@ function draw() {
         itens[i].guardar(j, currentRoom[j]);
       }
 
+      /*
+      if (currentItemAction[j] == 0 && itens[i].owner == -1) {
+        for (let k = 0; k < itens.length; k++) {
+          if (k != i && itens[k].owner == -1) {
+            itens[k].guardar(j, currentRoom[j]);
+            currentItemAction[j] = -1;
+            console.log("HERE");
+          }
+        }
+      }
+      */
       //largar
       if (currentItemAction[j] == 1 && itens[i].itemCurrentRoom == -1) {
         itens[i].largar(currentRoom[j]);
@@ -204,13 +229,13 @@ class item {
     let colour;
 
     if (this.itemID == 0) {
-      colour = "green";
+      colour = color(0, 255, 0);
     } else if (this.itemID == 1) {
-      colour = "red";
+      colour = color(255, 0, 0);
     } else if (this.itemID == 2) {
-      colour = "blue";
+      colour = color(0, 0, 255);
     } else if (this.itemID == 3) {
-      colour = "yellow";
+      colour = color(255, 255, 0);
     }
 
     //Na planta
@@ -221,6 +246,9 @@ class item {
       x = salaX[this.itemCurrentRoom];
       y = salaY[this.itemCurrentRoom];
       fill(colour);
+      circle(x, y, 50);
+    } else if (this.owner == -1 && this.visibility == false) {
+      fill(200, 200, 200, 128);
       circle(x, y, 50);
     }
 
@@ -274,6 +302,8 @@ class player {
     this.playerID = playerID;
     this.currentRoom = currentRoom;
     this.colourID = colourID;
+    this.neighbors = 0;
+    this.offset = 0;
   }
 
   display(newRoomID) {
@@ -288,11 +318,60 @@ class player {
       colour = "blue";
     }
 
-    //Esta cena do '-1' nao precisa de estar aqui se indexarmos os ids a partir de 0 em vez de comecar em 1
-    x = salaX[this.currentRoom];
-    y = salaY[this.currentRoom];
+    for (let i = 0; i < 3; i++) {
+      if (i != this.playerID) {
+        if (this.currentRoom === currentRoom[i]) {
+          this.neighbors++;
+        }
+      }
+    }
+    //console.log(this.neighbors);
+
+    switch (this.playerID) {
+      case 0:
+        this.offset = 0;
+        break;
+      case 1:
+        if (this.currentRoom === currentRoom[0]) {
+          this.offset = 1;
+        } else if (this.currentRoom === currentRoom[2]) {
+          this.offset = 0;
+        }
+        break;
+      case 2:
+        if (
+          this.currentRoom === currentRoom[0] &&
+          this.currentRoom === currentRoom[1]
+        ) {
+          this.offset = 2;
+        } else if (
+          (this.currentRoom === currentRoom[0] &&
+            this.currentRoom !== currentRoom[1]) ||
+          (this.currentRoom === currentRoom[1] &&
+            this.currentRoom !== currentRoom[0])
+        ) {
+          this.offset = 1;
+        } else {
+          this.offset = 0;
+        }
+        break;
+    }
+
+    if (frameCount === 300) {
+      console.log("Player " + this.playerID + " offset: " + this.offset);
+      console.log("Player " + this.playerID + " neighbors: " + this.neighbors);
+    }
+
+    let x = salaX[this.currentRoom] + this.offset * 50;
+    let y = salaY[this.currentRoom];
 
     fill(colour);
     rect(x, y, 80, 80);
+    fill(0);
+    textSize(30);
+    text(this.playerID, x, y);
+
+    this.neighbors = 0;
+    this.offset = 0;
   }
 }

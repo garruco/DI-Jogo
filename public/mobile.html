@@ -3,20 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="main.css" />
     <title>Interface do Telemóvel</title>
   </head>
   <body>
     <h1>Interface do Jogador</h1>
     <h4>Player 1</h4>
+
+    <div class="grid-container">
+      <button onclick="pickup(0)">Guardar</button>
+      <button onclick="drop(1)">Largar</button>
+      <button onclick="search(2)">Procurar</button>
+      <button onclick="hide(3)">Esconder</button>
+      <button onclick="">Mover</button>
+    </div>
     <button onclick="move(0,4)">Mover para Sala 1</button>
     <button onclick="move(1,4)">Mover para Sala 2</button>
     <button onclick="move(2,4)">Mover para Sala 3</button>
     <button onclick="move(3,4)">Mover para Sala 4</button>
     <button onclick="move(4,4)">Mover para Sala 5</button>
-    <button onclick="pickup(0)">Guardar Item</button>
-    <button onclick="drop(1)">Largar Item</button>
-    <button onclick="search(2)">Procurar Item</button>
-    <button onclick="hide(3)">Esconder Item</button>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>

@@ -1,0 +1,44 @@
+html {
+  background-color: lightgray;
+}
+
+canvas {
+  border: 4px solid #999;
+  border-radius: 16px;
+
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+button {
+  width: 120px;
+  background-color: grey;
+  color: white;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border: 4px solid #999;
+  border-radius: 8px;
+
+  box-shadow: 0 8px #777;
+
+  transition-duration: 0.08s;
+}
+
+button:active {
+  background-color: #333;
+  color: white;
+  box-shadow: 0 4px #666;
+  transform: translateY(4px);
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 120px);
+  gap: 16px;
+}
