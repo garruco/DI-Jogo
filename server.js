@@ -1,59 +1,108 @@
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
-const path = require("path"); // Adicionado para lidar com caminhos de diretório
+const path = require("path");
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Serve arquivos estáticos do diretório 'public'
 app.use(express.static(path.join(__dirname, "public")));
 
-// Serve a página principal (ecrã partilhado)
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
-// Serve a interface do telemóvel
 app.get("/mobile", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/mobile.html"));
 });
 
-// Lista de jogadores conectados
-let players = [];
+// Cores disponíveis para os jogadores
+//GUI - Estas são as cores dos itens, por isso alguma coisa ta meio perdida aqui
+const availableColors = ["red", "blue", "green", "yellow"];
+let players = {};
 
 io.on("connection", (socket) => {
   console.log("Um jogador conectou-se:", socket.id);
 
-  // Adicionar jogador à lista
-  players.push(socket.id);
-  if (players.length > 3) {
+  //Se ultrapassar os 3 players
+  if (Object.keys(players).length >= 4) {
     socket.emit("error", "Máximo de 3 jogadores atingido");
     socket.disconnect();
     return;
   }
 
-  // Enviar atualizações para o ecrã partilhado
+  // Atribuir uma cor ao jogador
+  const playerColor = availableColors.pop();
+  //Se não sobrarem cores
+  if (!playerColor) {
+    socket.emit("error", "Não há mais cores disponíveis");
+    socket.disconnect();
+    return;
+  }
+
+  //GUI - Não faço ideia o que isto faz
+  socket.emit("yourColor", playerColor);
+
+  //Atribui caracteristicas a cada player
+  //GUI - Este socket id dava jeito para passar para o frontend e atribuir como controlador individual de cada boneco
+  players[socket.id] = {
+    playerID: socket.id,
+    sala: 1,
+    action: 3,
+    color: playerColor,
+  };
+
+  //Envia entrada do player para o frontend
+  //GUI - Neste momento isto não vai para lado nenhum!!
   io.emit("updateScreen", { players });
 
-  // Ouvir movimentos do jogador
+  //mover
+  //GUI - Aqui este .x e meio burro, nao sei pq e que e preciso ngl mas so com ele e que funciona
   socket.on("move", (data) => {
-    console.log(
-      `Jogador ${socket.id} quer ${data.action} na direção ${data.direction}`
-    );
+    if (players[socket.id]) {
+      players[socket.id].sala = data.sala;
+      players[socket.id].action = data.action;
+      console.log("O jogador" + socket.id + "moveu-se para a sala" + data.sala);
+      io.emit("updateGame", { players });
+    }
+  });
 
-    // Aqui, pode adicionar lógica para processar o movimento, como atualizar a posição do personagem
+  socket.on("pickup", (data) => {
+    if (players[socket.id]) {
+      players[socket.id].action = data.action;
+      io.emit("pickup", { players });
+    }
+  });
 
-    // Enviar atualizações para todos os jogadores e ecrã partilhado
-    io.emit("updateGame", {
-      message: `Jogador ${socket.id} moveu-se para ${data.direction}`,
-    });
+  socket.on("drop", (data) => {
+    if (players[socket.id]) {
+      players[socket.id].action = data.action;
+      io.emit("drop", { players });
+    }
+  });
+
+  socket.on("search", (data) => {
+    if (players[socket.id]) {
+      players[socket.id].action = data.action;
+      io.emit("search", { players });
+    }
+  });
+
+  socket.on("hide", (data) => {
+    if (players[socket.id]) {
+      players[socket.id].action = data.action;
+      io.emit("hide", { players });
+    }
   });
 
   socket.on("disconnect", () => {
     console.log("Jogador desconectou-se:", socket.id);
-    players = players.filter((player) => player !== socket.id);
+    // Devolver a cor ao conjunto de cores disponíveis
+    if (players[socket.id]) {
+      availableColors.push(players[socket.id].color);
+    }
+    delete players[socket.id];
     io.emit("updateScreen", { players });
   });
 });

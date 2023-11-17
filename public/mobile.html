@@ -3,23 +3,62 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="main.css" />
     <title>Interface do Telemóvel</title>
   </head>
   <body>
     <h1>Interface do Jogador</h1>
-    <!-- Adicione mais botões conforme necessário -->
-    <button id="moveButton">Mover Personagem</button>
+    <h4>Player 1</h4>
+
+    <div class="grid-container">
+      <button onclick="pickup(0)">Guardar</button>
+      <button onclick="drop(1)">Largar</button>
+      <button onclick="search(2)">Procurar</button>
+      <button onclick="hide(3)">Esconder</button>
+      <button onclick="">Mover</button>
+    </div>
+    <button onclick="move(0,4)">Mover para Sala 1</button>
+    <button onclick="move(1,4)">Mover para Sala 2</button>
+    <button onclick="move(2,4)">Mover para Sala 3</button>
+    <button onclick="move(3,4)">Mover para Sala 4</button>
+    <button onclick="move(4,4)">Mover para Sala 5</button>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      const socket = io.connect();
+      const socket = io.connect("http://localhost:3000");
+      const colorElement = document
+        .getElementById("playerColor")
+        .querySelector("span");
 
-      document
-        .getElementById("moveButton")
-        .addEventListener("click", function () {
-          // Enviar evento de movimento ao servidor
-          socket.emit("move", { action: "moveCharacter", direction: "right" });
-        });
+      socket.on("yourColor", function (color) {
+        colorElement.textContent = color;
+      });
+
+      //Mover
+      function move(sala, action) {
+        socket.emit("move", { sala, action });
+      }
+
+      //Guardar
+      function pickup(action) {
+        socket.emit("pickup", { action });
+      }
+
+      //Largar
+      function drop(action) {
+        socket.emit("drop", { action });
+      }
+
+      //Procurar
+      function search(action) {
+        socket.emit("search", { action });
+      }
+
+      //Esconder
+      function hide(action) {
+        socket.emit("hide", { action });
+      }
     </script>
   </body>
 </html>
