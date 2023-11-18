@@ -41,7 +41,7 @@ function setup() {
   socket.on("updateGame", function (data) {
     // Atualiza posições dos jogadores
     //GUI - Não entendo bem esta cena aqui do const e tal, preciso de uma explicação; se o apagar o código funciona igual somehow
-    for (const [burriceburra, player] of Object.entries(data.players)) {
+    for (const player of Object.entries(data.players)) {
       //
       //Se nao e o partilhado
       if (atual != 0) {
@@ -65,7 +65,7 @@ function setup() {
   socket.on("pickup", function (data) {
     //console.log("Player " + data.playerID + " quer apanhar.");
     //console.log(data.action);
-    for (const [burriceburra, player] of Object.entries(data.players)) {
+    for (const player of Object.entries(data.players)) {
       //Se nao e o partilhado
       if (guardar != 0) {
         //Atualiza a ação (itens) de todos os players: P1 = [0], P2 = [1], ...
@@ -80,7 +80,7 @@ function setup() {
   socket.on("drop", function (data) {
     //console.log("DROP");
     //console.log(data.action);
-    for (const [burriceburra, player] of Object.entries(data.players)) {
+    for (const player of Object.entries(data.players)) {
       //Se nao e o partilhado
       if (largar != 0) {
         //Atualiza a ação (itens) de todos os players: P1 = [0], P2 = [1], ...
@@ -95,7 +95,7 @@ function setup() {
   socket.on("search", function (data) {
     //console.log("SEARCH");
     //console.log(data.action);
-    for (const [burriceburra, player] of Object.entries(data.players)) {
+    for (const player of Object.entries(data.players)) {
       //Se nao e o partilhado
       if (procurar != 0) {
         //Atualiza a ação (itens) de todos os players: P1 = [0], P2 = [1], ...
@@ -110,7 +110,7 @@ function setup() {
   socket.on("hide", function (data) {
     //console.log("HIDE");
     //console.log(data.action);
-    for (const [burriceburra, player] of Object.entries(data.players)) {
+    for (const player of Object.entries(data.players)) {
       //Se nao e o partilhado
       if (esconder != 0) {
         //Atualiza a ação (itens) de todos os players: P1 = [0], P2 = [1], ...
