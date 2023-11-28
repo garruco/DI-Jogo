@@ -55,16 +55,16 @@ io.on("connection", (socket) => {
 
   //Envia entrada do player para o frontend
   //GUI - Neste momento isto não vai para lado nenhum!!
-  io.emit("updateScreen", { players });
+  io.emit("addPlayer", socket.id);
 
   //mover
-  //GUI - Aqui este .x e meio burro, nao sei pq e que e preciso ngl mas so com ele e que funciona
   socket.on("move", (data) => {
     if (players[socket.id]) {
       players[socket.id].sala = data.sala;
       players[socket.id].action = data.action;
       console.log("O jogador" + socket.id + "moveu-se para a sala" + data.sala);
-      io.emit("updateGame", { players });
+      io.emit("changeActor", socket.id);
+      io.emit("updateGame", { players }, socket.id);
     }
   });
 
@@ -103,7 +103,7 @@ io.on("connection", (socket) => {
       availableColors.push(players[socket.id].color);
     }
     delete players[socket.id];
-    io.emit("updateScreen", { players });
+    io.emit("removePlayer", socket.id);
   });
 });
 

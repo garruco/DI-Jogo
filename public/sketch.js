@@ -16,6 +16,9 @@ let largar = 0;
 let esconder = 0;
 let procurar = 0;
 
+let ator = 0;
+let turnoAtual = 1;
+
 //Array com a posicao fixa de cada sala
 let salaX = [150, 225, 275, 525, 525];
 let salaY = [225, 375, 625, 225, 475];
@@ -36,6 +39,39 @@ function setup() {
   const socket = io.connect();
 
   // -- MOVIMENTOS --
+  socket.on("changeActor", function (data) {
+    for (let i = 0; i <= players.length; i++) {
+      //Se o socket id corresponde ao actor que enviou o update
+
+      if (players[i].socketID === data) {
+        ator = i;
+        console.log(ator);
+      }
+    }
+  });
+
+  socket.on("addPlayer", function (data) {
+    if (players.length <= 4) {
+      players.push(new player(players.length, players.length, 0, data));
+    } else {
+      for (let i = 0; i <= 4; i++) {
+        if (players[i] === null) {
+          players[i] = new player(i, i, 0, data);
+        }
+      }
+    }
+    console.log(players);
+  });
+
+  socket.on("removePlayer", function (data) {
+    console.log("Removi o player " + data);
+    for (let i = 0; i <= players.length; i++) {
+      if (players[i].socketID === data) {
+        players[i] = null;
+      }
+    }
+    console.log(players);
+  });
 
   //Quando recebe evento do socket
   socket.on("updateGame", function (data) {
@@ -46,20 +82,26 @@ function setup() {
       //Se nao e o partilhado
       if (atual != 0) {
         //
-        //Atualiza no array a posicao de todos os players: P1 = [0], P2 = [1], ...
-        currentRoom[atual - 1] = player.sala;
+        if (ator === turnoAtual) {
+          //Atualiza no array a posicao de todos os players: P1 = [0], P2 = [1], ...
+          currentRoom[atual - 1] = player.sala;
 
-        //Recebe a acao tomada por cada player
-        currentItemAction[atual - 1] = player.action;
+          //Recebe a acao tomada por cada player
+          currentItemAction[atual - 1] = player.action;
 
-        //PIPA - O Array 2D permite-nos associar a cada player um número (para ser mais fácil nas classes) e o ID atribuido ao player
-        playerID[atual - 1] = [atual - 1, player.playerID];
+          //PIPA - O Array 2D permite-nos associar a cada player um número (para ser mais fácil nas classes) e o ID atribuido ao player
+          //playerID[atual - 1] = [atual - 1, player.playerID];
+
+          if (turnoAtual < 3) {
+            turnoAtual++;
+          } else {
+            turnoAtual = 1;
+          }
+        }
       }
       atual++;
     }
     atual = 0;
-
-    console.log(currentRoom);
   });
 
   socket.on("pickup", function (data) {
@@ -139,33 +181,32 @@ function setup() {
     currentItemAction.push(4);
   }
 
-  //Room IDs dos Players
+  //Instancia os 3 players
+  /*
   for (let i = 0; i < 3; i++) {
     //O array de players começa com os placeholders, mas sem o respetivo socket id
     playerID.push([i, 0]);
-  }
-
-  //Instancia os 3 players
-  for (let i = 0; i < 3; i++) {
     //GUI - Aqui na proxima meta podemos enviar todo este playerID para dentro da classe, e la depois usar o que der jeito
     players.push(new player(playerID[i][0], i, 0));
   }
+  */
 }
 
 function draw() {
   background(220);
+
+  console.log(turnoAtual);
+
+  push();
+  textSize(30);
+  text(turnoAtual, 0, 0);
+  pop();
 
   image(planta, 0, 0, 800, 800);
 
   //Desenha os players na sua sala atual
   for (let i = 0; i < players.length; i++) {
     players[i].display(currentRoom[i]);
-
-    if (frameCount === 300) {
-      console.log(players);
-      console.log(currentRoom);
-      console.log();
-    }
   }
 
   //GUI - Aqui porque é que os itens nao seguem a mesma logica de cima de dar plug ao currentRoom?
@@ -298,12 +339,13 @@ class item {
 
 //classe Players
 class player {
-  constructor(playerID, colourID, currentRoom) {
+  constructor(playerID, colourID, currentRoom, socketID) {
     this.playerID = playerID;
     this.currentRoom = currentRoom;
     this.colourID = colourID;
     this.neighbors = 0;
     this.offset = 0;
+    this.socketID = socketID;
   }
 
   display(newRoomID) {
@@ -316,6 +358,8 @@ class player {
       colour = "purple";
     } else if (this.playerID == 2) {
       colour = "blue";
+    } else if (this.playerID == 3) {
+      colour = "red";
     }
 
     for (let i = 0; i < 3; i++) {
@@ -355,11 +399,6 @@ class player {
           this.offset = 0;
         }
         break;
-    }
-
-    if (frameCount === 300) {
-      console.log("Player " + this.playerID + " offset: " + this.offset);
-      console.log("Player " + this.playerID + " neighbors: " + this.neighbors);
     }
 
     let x = salaX[this.currentRoom] + this.offset * 50;
