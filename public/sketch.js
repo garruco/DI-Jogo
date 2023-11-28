@@ -9,6 +9,8 @@ let salas = [];
 let itens = [];
 let players = [];
 
+let assassino, bobby, carter, emma, faca, arma, estatua, tesoura;
+
 let atual = 0;
 
 let guardar = 0;
@@ -27,7 +29,17 @@ let salaY = [225, 375, 625, 225, 475];
 let planta;
 
 function preload() {
-  planta = loadImage("assets/planta.jpg");
+  planta = loadImage("assets/planta.png");
+
+  bobby = loadImage("assets/bobby.png");
+  carter = loadImage("assets/carter.png");
+  emma = loadImage("assets/emma.png");
+  assassino = loadImage("assets/assassino.png");
+
+  faca = loadImage("assets/faca.png");
+  arma = loadImage("assets/arma.png");
+  estatua = loadImage("assets/estatua.png");
+  tesoura = loadImage("assets/tesoura.png");
 }
 
 function setup() {
@@ -262,15 +274,20 @@ class item {
     let x;
     let y;
     let colour;
+    let img;
 
     if (this.itemID == 0) {
       colour = color(0, 255, 0);
+      img = tesoura;
     } else if (this.itemID == 1) {
       colour = color(255, 0, 0);
+      img = estatua;
     } else if (this.itemID == 2) {
       colour = color(0, 0, 255);
+      img = faca;
     } else if (this.itemID == 3) {
       colour = color(255, 255, 0);
+      img = arma;
     }
 
     //Na planta
@@ -280,11 +297,21 @@ class item {
     if (this.owner == -1 && this.visibility == true) {
       x = salaX[this.itemCurrentRoom];
       y = salaY[this.itemCurrentRoom];
-      fill(colour);
-      circle(x, y, 50);
+      //fill(colour);
+      //circle(x, y, 50);
+
+      push();
+      imageMode(CENTER);
+      image(img, x, y, 80, 80);
+      pop();
     } else if (this.owner == -1 && this.visibility == false) {
-      fill(200, 200, 200, 128);
-      circle(x, y, 50);
+      //fill(200, 200, 200, 128);
+      //circle(x, y, 50);
+
+      push();
+      imageMode(CENTER);
+      image(img, x, y, 80, 80);
+      pop();
     }
 
     //No Inventário
@@ -301,8 +328,13 @@ class item {
         y = 300;
       }
 
-      fill(colour);
-      circle(x, y, 50);
+      //fill(colour);
+      //circle(x, y, 50);
+
+      push();
+      imageMode(CENTER);
+      image(img, x, y, 80, 80);
+      pop();
     }
   }
 
@@ -344,16 +376,21 @@ class player {
 
   display(newRoomID) {
     let colour;
+    let img;
     this.currentRoom = newRoomID;
 
     if (this.playerID == 0) {
       colour = "pink";
+      img = assassino;
     } else if (this.playerID == 1) {
       colour = "purple";
+      img = bobby;
     } else if (this.playerID == 2) {
       colour = "blue";
+      img = carter;
     } else if (this.playerID == 3) {
       colour = "red";
+      img = emma;
     }
 
     for (let i = 0; i < 3; i++) {
@@ -398,8 +435,13 @@ class player {
     let x = salaX[this.currentRoom] + this.offset * 50;
     let y = salaY[this.currentRoom];
 
+    push();
     fill(colour);
-    rect(x, y, 80, 80);
+    //rect(x, y, 80, 80);
+    imageMode(CENTER);
+    image(img, x, y, 100, 100);
+    pop();
+
     fill(0);
     textSize(30);
     text(this.playerID, x, y);
