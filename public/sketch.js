@@ -40,12 +40,14 @@ function setup() {
 
   // -- MOVIMENTOS --
   socket.on("changeActor", function (data) {
-    for (let i = 0; i <= players.length; i++) {
+    for (let i = 0; i <= players.length - 1; i++) {
       //Se o socket id corresponde ao actor que enviou o update
+
+      console.log(players[i].socketID);
+      console.log(data);
 
       if (players[i].socketID === data) {
         ator = i;
-        console.log(ator);
       }
     }
   });
@@ -60,7 +62,6 @@ function setup() {
         }
       }
     }
-    console.log(players);
   });
 
   socket.on("removePlayer", function (data) {
@@ -70,7 +71,6 @@ function setup() {
         players[i] = null;
       }
     }
-    console.log(players);
   });
 
   //Quando recebe evento do socket
@@ -78,11 +78,14 @@ function setup() {
     // Atualiza posições dos jogadores
     //GUI - Não entendo bem esta cena aqui do const e tal, preciso de uma explicação; se o apagar o código funciona igual somehow
     for (const [burriceburra, player] of Object.entries(data.players)) {
+      console.log(atual);
       //
       //Se nao e o partilhado
       if (atual != 0) {
         //
         if (ator === turnoAtual) {
+          console.log("O PLAYER " + ator + "MOVEU-SE.");
+
           //Atualiza no array a posicao de todos os players: P1 = [0], P2 = [1], ...
           currentRoom[atual - 1] = player.sala;
 
@@ -195,11 +198,13 @@ function setup() {
 function draw() {
   background(220);
 
-  console.log(turnoAtual);
+  //console.log(turnoAtual);
 
   push();
   textSize(30);
-  text(turnoAtual, 0, 0);
+  fill(0);
+  stroke(0);
+  text(turnoAtual, 200, 200);
   pop();
 
   image(planta, 0, 0, 800, 800);

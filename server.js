@@ -10,7 +10,7 @@ const io = socketIo(server);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/index.html"));
+  res.sendFile(path.join(__dirname, "/public/jogo.html"));
 });
 
 app.get("/mobile", (req, res) => {
@@ -64,7 +64,7 @@ io.on("connection", (socket) => {
       players[socket.id].action = data.action;
       console.log("O jogador" + socket.id + "moveu-se para a sala" + data.sala);
       io.emit("changeActor", socket.id);
-      io.emit("updateGame", { players }, socket.id);
+      io.emit("updateGame", { players });
     }
   });
 
