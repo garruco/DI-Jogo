@@ -43,20 +43,18 @@ function setup() {
     for (let i = 0; i <= players.length - 1; i++) {
       //Se o socket id corresponde ao actor que enviou o update
 
-      console.log(players[i].socketID);
-      console.log(data);
-
       if (players[i].socketID === data) {
         ator = i;
+        console.log("O player " + i + " fez um pedido.");
       }
     }
   });
 
   socket.on("addPlayer", function (data) {
-    if (players.length <= 4) {
+    if (players.length < 4) {
       players.push(new player(players.length, players.length, 0, data));
     } else {
-      for (let i = 0; i <= 4; i++) {
+      for (let i = 0; i < 4; i++) {
         if (players[i] === null) {
           players[i] = new player(i, i, 0, data);
         }
@@ -78,22 +76,25 @@ function setup() {
     // Atualiza posições dos jogadores
     //GUI - Não entendo bem esta cena aqui do const e tal, preciso de uma explicação; se o apagar o código funciona igual somehow
     for (const [burriceburra, player] of Object.entries(data.players)) {
-      console.log(atual);
       //
       //Se nao e o partilhado
       if (atual != 0) {
         //
-        if (ator === turnoAtual) {
-          console.log("O PLAYER " + ator + "MOVEU-SE.");
-
-          //Atualiza no array a posicao de todos os players: P1 = [0], P2 = [1], ...
-          currentRoom[atual - 1] = player.sala;
+        if (ator === turnoAtual && ator === atual) {
+          currentRoom[ator] = player.sala;
 
           //Recebe a acao tomada por cada player
-          currentItemAction[atual - 1] = player.action;
+          currentItemAction[ator] = player.action;
 
-          //PIPA - O Array 2D permite-nos associar a cada player um número (para ser mais fácil nas classes) e o ID atribuido ao player
-          //playerID[atual - 1] = [atual - 1, player.playerID];
+          if (player.action === 0) {
+            console.log("O player " + ator + " guardou um item");
+          } else if (player.action === 1) {
+            console.log("O player " + ator + " largou um item");
+          } else if (player.action === 2) {
+            console.log("O player " + ator + " descobriu um item");
+          } else if (player.action === 3) {
+            console.log("O player " + ator + " escondeu um item");
+          }
 
           if (turnoAtual < 3) {
             turnoAtual++;
@@ -108,13 +109,10 @@ function setup() {
   });
 
   socket.on("pickup", function (data) {
-    //console.log("Player " + data.playerID + " quer apanhar.");
-    //console.log(data.action);
     for (const [burriceburra, player] of Object.entries(data.players)) {
       //Se nao e o partilhado
       if (guardar != 0) {
-        //Atualiza a ação (itens) de todos os players: P1 = [0], P2 = [1], ...
-        currentItemAction[guardar - 1] = player.action;
+        currentItemAction[guardar] = player.action;
       }
       guardar++;
     }
@@ -123,13 +121,10 @@ function setup() {
   });
 
   socket.on("drop", function (data) {
-    //console.log("DROP");
-    //console.log(data.action);
     for (const [burriceburra, player] of Object.entries(data.players)) {
       //Se nao e o partilhado
       if (largar != 0) {
-        //Atualiza a ação (itens) de todos os players: P1 = [0], P2 = [1], ...
-        currentItemAction[largar - 1] = player.action;
+        currentItemAction[largar] = player.action;
       }
       largar++;
     }
@@ -138,13 +133,10 @@ function setup() {
   });
 
   socket.on("search", function (data) {
-    //console.log("SEARCH");
-    //console.log(data.action);
     for (const [burriceburra, player] of Object.entries(data.players)) {
       //Se nao e o partilhado
       if (procurar != 0) {
-        //Atualiza a ação (itens) de todos os players: P1 = [0], P2 = [1], ...
-        currentItemAction[procurar - 1] = player.action;
+        currentItemAction[procurar] = player.action;
       }
       procurar++;
     }
@@ -153,13 +145,10 @@ function setup() {
   });
 
   socket.on("hide", function (data) {
-    //console.log("HIDE");
-    //console.log(data.action);
     for (const [burriceburra, player] of Object.entries(data.players)) {
       //Se nao e o partilhado
       if (esconder != 0) {
-        //Atualiza a ação (itens) de todos os players: P1 = [0], P2 = [1], ...
-        currentItemAction[esconder - 1] = player.action;
+        currentItemAction[esconder] = player.action;
       }
       esconder++;
     }
@@ -174,7 +163,7 @@ function setup() {
   }
 
   //Room IDs dos Players
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 4; i++) {
     //Todos os players começam na mesma sala
     currentRoom.push(1);
   }
@@ -198,7 +187,7 @@ function setup() {
 function draw() {
   background(220);
 
-  //console.log(turnoAtual);
+  console.log(turnoAtual);
 
   push();
   textSize(30);

@@ -71,28 +71,32 @@ io.on("connection", (socket) => {
   socket.on("pickup", (data) => {
     if (players[socket.id]) {
       players[socket.id].action = data.action;
-      io.emit("pickup", { players });
+      io.emit("changeActor", socket.id);
+      io.emit("updateGame", { players });
     }
   });
 
   socket.on("drop", (data) => {
     if (players[socket.id]) {
       players[socket.id].action = data.action;
-      io.emit("drop", { players });
+      io.emit("changeActor", socket.id);
+      io.emit("updateGame", { players });
     }
   });
 
   socket.on("search", (data) => {
     if (players[socket.id]) {
       players[socket.id].action = data.action;
-      io.emit("search", { players });
+      io.emit("changeActor", socket.id);
+      io.emit("updateGame", { players });
     }
   });
 
   socket.on("hide", (data) => {
     if (players[socket.id]) {
       players[socket.id].action = data.action;
-      io.emit("hide", { players });
+      io.emit("changeActor", socket.id);
+      io.emit("updateGame", { players });
     }
   });
 
