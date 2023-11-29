@@ -22,8 +22,11 @@ let ator = 0;
 let turnoAtual = 1;
 
 //Array com a posicao fixa de cada sala
-let salaX = [150, 225, 275, 525, 525];
-let salaY = [225, 375, 625, 225, 475];
+let salaX = [150, 225, 275, 550, 550];
+let salaY = [175, 375, 650, 150, 450];
+
+let salaXItem = [125, 425, 350, 675, 650];
+let salaYItem = [150, 350, 700, 200, 475];
 
 //Imagem da planta
 let planta;
@@ -43,7 +46,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(1000, 800);
 
   //GUI - Pode precisar de ser mudado conforme outros rects que ponhamos later on
   rectMode(CENTER);
@@ -172,26 +175,16 @@ function setup() {
   });
 
   //Instancia cada um dos itens
-  for (let i = 0; i < 4; i++) {
-    //Cada item começa sem owner (owner = -1)
-    itens.push(new item(i, i, -1));
-  }
+  itens.push(new item(0, 0, -1));
+  itens.push(new item(1, 2, -1));
+  itens.push(new item(2, 3, -1));
+  itens.push(new item(3, 4, -1));
 
   //Room IDs dos Players
   for (let i = 0; i < 4; i++) {
     //Todos os players começam na mesma sala
     currentRoom.push(1);
   }
-
-  //Instancia os 3 players
-  /*
-  for (let i = 0; i < 3; i++) {
-    //O array de players começa com os placeholders, mas sem o respetivo socket id
-    playerID.push([i, 0]);
-    //GUI - Aqui na proxima meta podemos enviar todo este playerID para dentro da classe, e la depois usar o que der jeito
-    players.push(new player(playerID[i][0], i, 0));
-  }
-  */
 }
 
 function draw() {
@@ -222,38 +215,36 @@ function draw() {
 
   //Ações com itens
   // Verificar todos os pares player-item para ver quais partilham a mesma sala
+
   for (let i = 0; i < itens.length; i++) {
-    for (let j = 0; j < players.length; j++) {
-      //guardar
-      if (currentItemAction[j] == 0 && itens[i].owner == -1) {
-        itens[i].guardar(j, currentRoom[j]);
-      }
+    //apanhar
 
-      /*
-      if (currentItemAction[j] == 0 && itens[i].owner == -1) {
-        for (let k = 0; k < itens.length; k++) {
-          if (k != i && itens[k].owner == -1) {
-            itens[k].guardar(j, currentRoom[j]);
-            currentItemAction[j] = -1;
-            console.log("HERE");
-          }
-        }
-      }
-      */
-      //largar
-      if (currentItemAction[j] == 1 && itens[i].itemCurrentRoom == -1) {
-        itens[i].largar(currentRoom[j]);
-      }
+    //Se o ator quer apanhar e o item nao e de ninguem e o ator tem o inv vazio
+    if (
+      currentItemAction[ator] == 0 &&
+      itens[i].owner == -1 &&
+      checkInv(ator) == false
+    ) {
+      itens[i].guardar(ator, currentRoom[ator]);
+    }
 
-      //procurar
-      if (currentItemAction[j] == 2) {
-        itens[i].encontrar(currentRoom[j]);
-      }
+    //largar
+    if (
+      currentItemAction[ator] == 1 &&
+      itens[i].itemCurrentRoom == -1 &&
+      itens[i].owner == ator
+    ) {
+      itens[i].largar(currentRoom[ator]);
+    }
 
-      //esconder
-      if (currentItemAction[j] == 3) {
-        itens[i].esconder(currentRoom[j]);
-      }
+    //procurar
+    if (currentItemAction[ator] == 2) {
+      itens[i].encontrar(currentRoom[ator]);
+    }
+
+    //esconder
+    if (currentItemAction[ator] == 3) {
+      itens[i].esconder(currentRoom[ator]);
     }
   }
 }
@@ -279,13 +270,13 @@ class item {
       img = tesoura;
     } else if (this.itemID == 1) {
       colour = color(255, 0, 0);
-      img = estatua;
+      img = faca;
     } else if (this.itemID == 2) {
       colour = color(0, 0, 255);
-      img = faca;
+      img = arma;
     } else if (this.itemID == 3) {
       colour = color(255, 255, 0);
-      img = arma;
+      img = estatua;
     }
 
     //Na planta
@@ -293,8 +284,8 @@ class item {
     //Ainda preciso de rever isto, poupa imenso código mas depois ainda temos de fazer offsets individuais para cada sala
 
     if (this.owner == -1 && this.visibility == true) {
-      x = salaX[this.itemCurrentRoom];
-      y = salaY[this.itemCurrentRoom];
+      x = salaXItem[this.itemCurrentRoom];
+      y = salaYItem[this.itemCurrentRoom];
       //fill(colour);
       //circle(x, y, 50);
 
@@ -305,25 +296,29 @@ class item {
     } else if (this.owner == -1 && this.visibility == false) {
       //fill(200, 200, 200, 128);
       //circle(x, y, 50);
-
+      /*
       push();
       imageMode(CENTER);
       image(img, x, y, 80, 80);
       pop();
+      */
     }
 
     //No Inventário
 
     if (this.owner != -1) {
       if (this.owner == 0) {
-        x = 700;
-        y = 100;
+        x = 825;
+        y = 125;
       } else if (this.owner == 1) {
-        x = 700;
-        y = 200;
+        x = 825;
+        y = 250;
       } else if (this.owner == 2) {
-        x = 700;
-        y = 300;
+        x = 825;
+        y = 375;
+      } else if (this.owner == 3) {
+        x = 825;
+        y = 500;
       }
 
       //fill(colour);
@@ -335,6 +330,8 @@ class item {
       pop();
     }
   }
+
+  //itens[i].guardar(ator, currentRoom[ator]);
 
   guardar(newOwner, playerRoom) {
     if (playerRoom == this.itemCurrentRoom) {
@@ -391,14 +388,13 @@ class player {
       img = emma;
     }
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < players.length; i++) {
       if (i != this.playerID) {
         if (this.currentRoom === currentRoom[i]) {
           this.neighbors++;
         }
       }
     }
-    //console.log(this.neighbors);
 
     switch (this.playerID) {
       case 0:
@@ -428,6 +424,41 @@ class player {
           this.offset = 0;
         }
         break;
+      case 3:
+        if (
+          this.currentRoom === currentRoom[0] &&
+          this.currentRoom === currentRoom[1] &&
+          this.currentRoom === currentRoom[2]
+        ) {
+          this.offset = 3;
+        } else if (
+          (this.currentRoom === currentRoom[0] &&
+            this.currentRoom === currentRoom[1] &&
+            this.currentRoom !== currentRoom[2]) ||
+          (this.currentRoom === currentRoom[0] &&
+            this.currentRoom === currentRoom[2] &&
+            this.currentRoom !== currentRoom[1]) ||
+          (this.currentRoom === currentRoom[1] &&
+            this.currentRoom === currentRoom[2] &&
+            this.currentRoom !== currentRoom[0])
+        ) {
+          this.offset = 2;
+        } else if (
+          (this.currentRoom === currentRoom[0] &&
+            this.currentRoom !== currentRoom[1] &&
+            this.currentRoom !== currentRoom[2]) ||
+          (this.currentRoom === currentRoom[1] &&
+            this.currentRoom !== currentRoom[0] &&
+            this.currentRoom !== currentRoom[2]) ||
+          (this.currentRoom === currentRoom[2] &&
+            this.currentRoom !== currentRoom[0] &&
+            this.currentRoom !== currentRoom[1])
+        ) {
+          this.offset = 1;
+        } else {
+          this.offset = 0;
+        }
+        break;
     }
 
     let x = salaX[this.currentRoom] + this.offset * 50;
@@ -447,4 +478,16 @@ class player {
     this.neighbors = 0;
     this.offset = 0;
   }
+}
+
+function checkInv(player) {
+  let cheio = false;
+
+  for (let i = 0; i < itens.length; i++) {
+    if (itens[i].owner == ator) {
+      cheio = true;
+    }
+  }
+
+  return cheio;
 }
