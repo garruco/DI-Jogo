@@ -54,7 +54,6 @@ io.on("connection", (socket) => {
   };
 
   //Envia entrada do player para o frontend
-  //GUI - Neste momento isto não vai para lado nenhum!!
   io.emit("addPlayer", socket.id);
 
   //mover

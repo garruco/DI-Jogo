@@ -50,21 +50,10 @@ function setup() {
 
   const socket = io.connect();
 
-  // -- MOVIMENTOS --
-  socket.on("changeActor", function (data) {
-    for (let i = 0; i <= players.length - 1; i++) {
-      //Se o socket id corresponde ao actor que enviou o update
-
-      if (players[i].socketID === data) {
-        ator = i;
-        console.log("O player " + i + " fez um pedido.");
-      }
-    }
-  });
-
   socket.on("addPlayer", function (data) {
     if (players.length < 4) {
       players.push(new player(players.length, players.length, 0, data));
+      currentItemAction.push(4);
     } else {
       for (let i = 0; i < 4; i++) {
         if (players[i] === null) {
@@ -83,6 +72,20 @@ function setup() {
     }
   });
 
+  // -- MOVIMENTOS --
+  socket.on("changeActor", function (data) {
+    for (let i = 0; i < players.length; i++) {
+      //Se o socket id corresponde ao actor que enviou o update
+
+      if (players[i].socketID === data) {
+        ator = i;
+        console.log("O player " + i + " fez um pedido.");
+      }
+    }
+
+    console.log(currentItemAction);
+  });
+
   //Quando recebe evento do socket
   socket.on("updateGame", function (data) {
     // Atualiza posições dos jogadores
@@ -93,8 +96,6 @@ function setup() {
       if (atual != 0) {
         //
         if (ator === turnoAtual && ator === atual) {
-          currentRoom[ator] = player.sala;
-
           //Recebe a acao tomada por cada player
           currentItemAction[ator] = player.action;
 
@@ -106,6 +107,8 @@ function setup() {
             console.log("O player " + ator + " descobriu um item");
           } else if (player.action === 3) {
             console.log("O player " + ator + " escondeu um item");
+          } else if (player.action === 4) {
+            currentRoom[ator] = player.sala;
           }
 
           if (turnoAtual < 3) {
@@ -178,11 +181,6 @@ function setup() {
   for (let i = 0; i < 4; i++) {
     //Todos os players começam na mesma sala
     currentRoom.push(1);
-  }
-
-  //Action IDs dos Players (ultima ação realizada)
-  for (let i = 0; i < 3; i++) {
-    currentItemAction.push(4);
   }
 
   //Instancia os 3 players
