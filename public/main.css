@@ -42,3 +42,32 @@ button:active {
   grid-template-columns: repeat(2, 120px);
   gap: 16px;
 }
+
+form {
+  position: relative;
+  width: 65%;
+  margin: auto;
+  padding: 2%;
+  background-color: gray;
+  text-align: center;
+}
+
+.character {
+  display: inline-block;
+  position: relative;
+  width: 33%;
+  margin: auto;
+  background-color: deeppink;
+}
+
+.all_characters {
+  padding: 2%;
+  background-color: darkolivegreen;
+}
+
+.color {
+  padding: 2%;
+  background-color: aqua;
+  margin-bottom: 5%;
+  margin-top: 2%;
+}

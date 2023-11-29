@@ -41,21 +41,30 @@ io.on("connection", (socket) => {
     return;
   }
 
-  //GUI - Não faço ideia o que isto faz
-  socket.emit("yourColor", playerColor);
-
   //Atribui caracteristicas a cada player
   //GUI - Este socket id dava jeito para passar para o frontend e atribuir como controlador individual de cada boneco
   players[socket.id] = {
     playerID: socket.id,
     sala: 1,
     action: 3,
-    color: playerColor,
+    character: 3,
+    color: 2,
   };
 
   //Envia entrada do player para o frontend
   //GUI - Neste momento isto não vai para lado nenhum!!
   io.emit("addPlayer", socket.id);
+
+  //seleção de personagens
+  socket.on("submit", (data) => {
+    if (players[socket.id]) {
+      players[socket.id].character = data.character;
+      players[socket.id].color = data.color;
+
+      io.emit("changeActor", socket.id);
+      io.emit("updateGame", { players });
+    }
+  });
 
   //mover
   socket.on("move", (data) => {

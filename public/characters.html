@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="main.css" />
+    <title>Interface do Telemóvel</title>
+  </head>
+  <body>
+    <!--<div class="characters">
+      <button onclick="pickup(0)">Guardar</button>
+      <button onclick="drop(1)">Largar</button>
+      <button onclick="search(2)">Procurar</button>
+      <button onclick="hide(3)">Esconder</button>
+      <button onclick="">Mover</button>
+    </div>-->
+
+    <form>
+      <div class="all_characters">
+        <h4>Choose your Character</h4>
+        <div class="character">
+          <img src="assets/bobby.png" width="250" /> </br>
+          <input type="radio" id="bobby" name="character" value="bobby" />
+          <label for="bobby">Bobby Van der Meer</label>
+        </div>
+        <div class="character">
+          <img src="assets/carter.png" width="220" /></br>
+          <input type="radio" id="carter" name="character" value="carter" />
+          <label for="carter">Carter Dawson</label>
+        </div>
+        <div class="character">
+          <img src="assets/emma.png" width="220" /></br>
+          <input type="radio" id="emma" name="character" value="emma" />
+          <label for="emma">Emma Hillberry</label>
+        </div>
+      </div>
+
+      <div class="color">
+        <h4>Choose your Color</h4>
+        <input type="radio" id="blue" name="color" value="blue" />
+        <label for="bobby">Blue</label>
+        <input type="radio" id="green" name="color" value="green" />
+        <label for="carter">Green</label>
+        <input type="radio" id="brown" name="color" value="brown" />
+        <label for="emma">Brown</label>
+      </div>
+
+      <input type="submit" value="Bora lá" />
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io.connect("http://localhost:3000");
+
+      //Enviar
+      function submit() {
+        socket.emit("move", {});
+      }
+    </script>
+  </body>
+</html>
