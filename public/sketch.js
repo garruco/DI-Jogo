@@ -9,8 +9,6 @@ let salas = [];
 let itens = [];
 let players = [];
 
-let assassino, bobby, carter, emma, faca, arma, estatua, tesoura;
-
 let atual = 0;
 
 let guardar = 0;
@@ -28,11 +26,25 @@ let salaY = [175, 375, 650, 150, 450];
 let salaXItem = [125, 425, 350, 675, 650];
 let salaYItem = [150, 350, 700, 200, 475];
 
-//Imagem da planta
-let planta;
+//Imagens
+let planta,
+  inventario,
+  assassino,
+  bobby,
+  carter,
+  emma,
+  faca,
+  arma,
+  estatua,
+  tesoura;
+
+//Canvas
+var w = window.innerWidth;
+var h = window.innerHeight;
 
 function preload() {
   planta = loadImage("assets/planta.png");
+  inventario = loadImage("assets/inventory.png");
 
   bobby = loadImage("assets/bobby.png");
   carter = loadImage("assets/carter.png");
@@ -46,7 +58,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(1000, 800);
+  createCanvas(w, h);
 
   //GUI - Pode precisar de ser mudado conforme outros rects que ponhamos later on
   rectMode(CENTER);
@@ -188,7 +200,7 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  background(46, 55, 47);
 
   console.log(turnoAtual);
 
@@ -199,7 +211,13 @@ function draw() {
   text(turnoAtual, 200, 200);
   pop();
 
+  //planta
   image(planta, 0, 0, 800, 800);
+
+  //inventário
+  for (let i = 0; i < 4; i++) {
+    image(inventario, 825, 0 + 125 * i);
+  }
 
   //Desenha os players na sua sala atual
   for (let i = 0; i < players.length; i++) {
@@ -308,16 +326,16 @@ class item {
 
     if (this.owner != -1) {
       if (this.owner == 0) {
-        x = 825;
+        x = 875;
         y = 125;
       } else if (this.owner == 1) {
-        x = 825;
+        x = 875;
         y = 250;
       } else if (this.owner == 2) {
-        x = 825;
+        x = 875;
         y = 375;
       } else if (this.owner == 3) {
-        x = 825;
+        x = 875;
         y = 500;
       }
 
