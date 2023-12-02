@@ -42,3 +42,19 @@ button:active {
   grid-template-columns: repeat(2, 120px);
   gap: 16px;
 }
+
+/* Inicio*/
+
+/* Contexto Narrativo */
+
+.context {
+  position: relative;
+  width: 30%;
+  margin: auto;
+}
+
+.time {
+  position: relative;
+  width: 30%;
+  margin: auto;
+}

@@ -23,8 +23,8 @@ let turnoAtual = 1;
 let salaX = [150, 225, 275, 550, 550];
 let salaY = [175, 375, 650, 150, 450];
 
-let salaXItem = [125, 425, 350, 675, 650];
-let salaYItem = [150, 350, 700, 200, 475];
+let salaXItem = [220, 425, 340, 750, 800];
+let salaYItem = [200, 350, 800, 160, 475];
 
 //Imagens
 let planta,
@@ -212,11 +212,11 @@ function draw() {
   pop();
 
   //planta
-  image(planta, 0, 0, 800, 800);
+  image(planta, 50, 20, 950, 950);
 
   //inventário
   for (let i = 0; i < 4; i++) {
-    image(inventario, 825, 0 + 125 * i);
+    image(inventario, w - 350, 0 + 150 * i);
   }
 
   //Desenha os players na sua sala atual
@@ -326,17 +326,17 @@ class item {
 
     if (this.owner != -1) {
       if (this.owner == 0) {
-        x = 875;
-        y = 125;
+        x = w - 230;
+        y = 200;
       } else if (this.owner == 1) {
-        x = 875;
-        y = 250;
+        x = w - 230;
+        y = 350;
       } else if (this.owner == 2) {
-        x = 875;
-        y = 375;
-      } else if (this.owner == 3) {
-        x = 875;
+        x = w - 230;
         y = 500;
+      } else if (this.owner == 3) {
+        x = w - 230;
+        y = 650;
       }
 
       //fill(colour);
