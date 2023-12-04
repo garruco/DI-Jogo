@@ -2,6 +2,8 @@ html {
   background-color: lightgray;
 }
 
+/*Fonte*/
+
 canvas {
   border: 4px solid #999;
   border-radius: 16px;
@@ -12,33 +14,66 @@ canvas {
   margin-right: auto;
   display: block;
 }
-
 /* Inicio*/
+.subtitle {
+  font-family: "Pixelify Sans", sans-serif;
+  font-size: 2vw;
+  color: #5cbcac;
+  display: block;
+  position: relative;
+  margin: auto;
+  text-align: center;
+  top: -5vw;
+}
+
+.title {
+  display: block;
+  position: relative;
+  margin: auto;
+}
 
 /* Contexto Narrativo */
 
 .context,
 .time {
   position: relative;
-  width: 30%;
   margin: auto;
-  margin-top: 1vw;
+  background: none;
+  background-image: url(assets/story2.png);
+  background-repeat: no-repeat;
+  background-position: 50% 40%;
+  height: 14vw;
+  width: 31vw;
+  padding: 2vw;
 }
 
 .context > .clock,
 .time > .clock {
-  color: #c4f4c4;
-  margin-bottom: 0.1vw;
-  padding: 0.5vw;
+  font-family: "Pixelify Sans", sans-serif;
+  color: #2e372f;
+  margin-bottom: 0.3vw;
+  margin-top: 0.2vw;
+  margin-left: 1vw;
 }
 
 .context > .context_text,
 .time > .context_text {
-  padding: 2vw;
-  background-color: #5cbcac;
+  /*background-color: #5cbcac;
   border: #1c646c 5px double;
-  border-radius: 15px;
+  border-radius: 15px;*/
   margin-top: 0%;
+  font-family: "Pixelify Sans", sans-serif;
+  padding-left: 1vw;
+  color: #1c646c;
+  width: 29vw;
+}
+
+.context {
+  padding-top: 3vw;
+}
+
+.time {
+  padding-top: 5vw;
 }
 
 /* Background */
@@ -85,6 +120,7 @@ button {
   font-size: 16px;
   transition-duration: 0.08s;
   margin: 1.5vw;
+  font-family: "Pixelify Sans", sans-serif;
 }
 
 button:active {
