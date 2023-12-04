@@ -47,14 +47,32 @@ button:active {
 
 /* Contexto Narrativo */
 
-.context {
-  position: relative;
-  width: 30%;
-  margin: auto;
-}
-
+.context,
 .time {
   position: relative;
   width: 30%;
   margin: auto;
+  margin-top: 1vw;
+}
+
+.context > .venice,
+.time > .venice {
+  color: #5cbcac;
+  margin-bottom: 0.2vw;
+}
+
+.context > .bmmini,
+.time > .bmmini {
+  padding: 0.5vw;
+  background: #c4f4c4;
+  color: #1c646c;
+}
+
+/* Background */
+.green {
+  background-color: rgb(46, 55, 47);
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 2vw;
 }

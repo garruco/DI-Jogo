@@ -46,10 +46,10 @@ function preload() {
   planta = loadImage("assets/planta.png");
   inventario = loadImage("assets/inventory.png");
 
-  bobby = loadImage("assets/bobby.png");
-  carter = loadImage("assets/carter.png");
-  emma = loadImage("assets/emma.png");
-  assassino = loadImage("assets/assassino.png");
+  bobby = loadImage("assets/bobby_ficha.png");
+  carter = loadImage("assets/carter_ficha.png");
+  emma = loadImage("assets/emma_ficha.png");
+  assassino = loadImage("assets/assassino_ficha2.png");
 
   faca = loadImage("assets/faca.png");
   arma = loadImage("assets/arma.png");
@@ -393,16 +393,16 @@ class player {
     this.currentRoom = newRoomID;
 
     if (this.playerID == 0) {
-      colour = "pink";
+      colour = (44, 28, 4);
       img = assassino;
     } else if (this.playerID == 1) {
-      colour = "purple";
+      colour = "aqua";
       img = bobby;
     } else if (this.playerID == 2) {
       colour = "blue";
       img = carter;
     } else if (this.playerID == 3) {
-      colour = "red";
+      colour = "beige";
       img = emma;
     }
 
@@ -484,9 +484,9 @@ class player {
 
     push();
     fill(colour);
-    //rect(x, y, 80, 80);
+    rect(x, y, 80, 80);
     imageMode(CENTER);
-    image(img, x, y, 100, 100);
+    image(img, x, y, 130, 130);
     pop();
 
     fill(0);
