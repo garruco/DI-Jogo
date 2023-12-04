@@ -7,29 +7,26 @@
     <link rel="stylesheet" href="main.css" />
     <title>Interface do Telemóvel</title>
   </head>
-  <body>
-    <h1>Interface do Jogador</h1>
-    <h4>Player 1</h4>
-
+  <body class="green">
     <div class="grid-container">
       <button onclick="pickup(0)">Guardar</button>
       <button onclick="drop(1)">Largar</button>
       <button onclick="search(2)">Procurar</button>
       <button onclick="hide(3)">Esconder</button>
-      <button onclick="">Mover</button>
+      <button onclick="hide_show()">Mover</button>
     </div>
-    <button onclick="move(0,4)">Mover para Sala 1</button>
-    <button onclick="move(1,4)">Mover para Sala 2</button>
-    <button onclick="move(2,4)">Mover para Sala 3</button>
-    <button onclick="move(3,4)">Mover para Sala 4</button>
-    <button onclick="move(4,4)">Mover para Sala 5</button>
+    <div class="move" id="hide_show" style="display: none">
+      <button onclick="move(0,4)">Mover para Sala 1</button>
+      <button onclick="move(1,4)">Mover para Sala 2</button>
+      <button onclick="move(2,4)">Mover para Sala 3</button>
+      <button onclick="move(3,4)">Mover para Sala 4</button>
+      <button onclick="move(4,4)">Mover para Sala 5</button>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io.connect("http://localhost:3000");
-      const colorElement = document
-        .getElementById("playerColor")
-        .querySelector("span");
+      const colorElement = document;
 
       socket.on("yourColor", function (color) {
         colorElement.textContent = color;
@@ -58,6 +55,16 @@
       //Esconder
       function hide(action) {
         socket.emit("hide", { action });
+      }
+
+      //Hide Show - Mover
+      function hide_show() {
+        var x = document.getElementById("hide_show");
+        if (x.style.display === "none") {
+          x.style.display = "inline-block";
+        } else {
+          x.style.display = "none";
+        }
       }
     </script>
   </body>
