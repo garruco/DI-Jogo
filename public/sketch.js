@@ -17,7 +17,11 @@ let esconder = 0;
 let procurar = 0;
 
 let ator = 0;
-let turnoAtual = 1;
+let turnoAtual = 0;
+
+//lista de ações do bot:  guardar 0, largar 1, procurar 2, esconder 3, mover 4
+let lastBotMoves = [];
+let isFirstMove = true;
 
 //Array com a posicao fixa de cada sala
 let salaX = [150, 225, 275, 550, 550];
@@ -76,7 +80,20 @@ function setup() {
         }
       }
     }
+    if (players.length == 4 && isFirstMove) startGame();
+
+    console.log("jogadores online " + players.length);
+    console.log("teste 1a jogada " + isFirstMove);
   });
+
+  function startGame() {
+    console.log("comecei o jogo");
+    salaAIr = generateRandom(0, 5, [1]);
+    currentRoom[ator] = salaAIr;
+    ator++;
+    turnoAtual++;
+    isFirstMove = false;
+  }
 
   socket.on("removePlayer", function (data) {
     console.log("Removi o player " + data);
@@ -129,7 +146,7 @@ function setup() {
           if (turnoAtual < 3) {
             turnoAtual++;
           } else {
-            turnoAtual = 1;
+            turnoAtual = 0;
           }
         }
       }
@@ -197,6 +214,15 @@ function setup() {
     //Todos os players começam na mesma sala
     currentRoom.push(1);
   }
+}
+
+function generateRandom(min, max, exclude) {
+  let random;
+  while (!random) {
+    const x = Math.floor(Math.random() * (max - min + 1)) + min;
+    if (exclude.indexOf(x) === -1) random = x;
+  }
+  return random;
 }
 
 function draw() {
