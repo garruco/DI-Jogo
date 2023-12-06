@@ -120,7 +120,7 @@ function setup() {
   socket.on("updateGame", function (data) {
     // Atualiza posições dos jogadores
     //GUI - Não entendo bem esta cena aqui do const e tal, preciso de uma explicação; se o apagar o código funciona igual somehow
-    for (const [burriceburra, player] of Object.entries(data.players)) {
+    for (const [cache, player] of Object.entries(data.players)) {
       //
       //Se nao e o partilhado
       if (atual != 0) {
@@ -154,7 +154,7 @@ function setup() {
   });
 
   socket.on("pickup", function (data) {
-    for (const [burriceburra, player] of Object.entries(data.players)) {
+    for (const [cache, player] of Object.entries(data.players)) {
       //Se nao e o partilhado
       if (guardar != 0) {
         currentItemAction[guardar] = player.action;
@@ -166,7 +166,7 @@ function setup() {
   });
 
   socket.on("drop", function (data) {
-    for (const [burriceburra, player] of Object.entries(data.players)) {
+    for (const [cache, player] of Object.entries(data.players)) {
       //Se nao e o partilhado
       if (largar != 0) {
         currentItemAction[largar] = player.action;
@@ -178,7 +178,7 @@ function setup() {
   });
 
   socket.on("search", function (data) {
-    for (const [burriceburra, player] of Object.entries(data.players)) {
+    for (const [cache, player] of Object.entries(data.players)) {
       //Se nao e o partilhado
       if (procurar != 0) {
         currentItemAction[procurar] = player.action;
@@ -190,7 +190,7 @@ function setup() {
   });
 
   socket.on("hide", function (data) {
-    for (const [burriceburra, player] of Object.entries(data.players)) {
+    for (const [cache, player] of Object.entries(data.players)) {
       //Se nao e o partilhado
       if (esconder != 0) {
         currentItemAction[esconder] = player.action;
