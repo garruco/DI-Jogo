@@ -457,13 +457,13 @@ class player {
       colour = (44, 28, 4);
       img = assassino;
     } else if (this.playerID == 1) {
-      colour = "aqua";
+      colour = "#c4f4c4";
       img = bobby;
     } else if (this.playerID == 2) {
-      colour = "blue";
+      colour = "#c4f4c4";
       img = carter;
     } else if (this.playerID == 3) {
-      colour = "beige";
+      colour = "#506c4c";
       img = emma;
     }
 
