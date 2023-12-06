@@ -19,7 +19,7 @@ let procurar = 0;
 let ator = 0;
 let turnoAtual = 0;
 
-//lista de ações do bot:  guardar 0, largar 1, procurar 2, esconder 3, mover 4
+//lista de ações do bot: guardar 0, largar 1, procurar 2, esconder 3, mover 4
 let lastBotMoves = [];
 let isFirstMove = true;
 
@@ -81,15 +81,13 @@ function setup() {
       }
     }
     if (players.length == 4 && isFirstMove) startGame();
-
-    console.log("jogadores online " + players.length);
-    console.log("teste 1a jogada " + isFirstMove);
   });
 
   function startGame() {
-    console.log("comecei o jogo");
-    salaAIr = generateRandom(0, 5, [1]);
+    salaAIr = generateRandom(0, 4, [1]);
     currentRoom[ator] = salaAIr;
+    console.log("1a jogada do bot: moveu-se para sala " + salaAIr);
+    lastBotMoves.push(4); // mover = int 4
     ator++;
     turnoAtual++;
     isFirstMove = false;
@@ -228,7 +226,35 @@ function generateRandom(min, max, exclude) {
 function draw() {
   background(46, 55, 47);
 
-  console.log(turnoAtual);
+  console.log("turno" + turnoAtual + "ator " + ator);
+  //lista de ações do bot: guardar 0, largar 1, procurar 2, esconder 3, mover 4
+  if (!isFirstMove && turnoAtual == 0) {
+    console.log("Jogada do bot:");
+    // se a ultima jogada foi mover-se
+    if (lastBotMoves[lastBotMoves.length - 1] == 4) {
+      //caso esteja um item à vista, apanha-o
+      for (let i = 0; i < itens.length; i++) {
+        if (
+          itens[i].itemCurrentRoom == currentRoom[0] &&
+          itens[i].visibility == true &&
+          itens[i].owner == -1
+        ) {
+          itens[i].guardar(0, currentRoom[0]);
+          lastBotMoves.push(0); // guardar = int 0
+          console.log("- bot a guardar item");
+        }
+      }
+      //caso contrário, procura na sala
+    }
+    // se a ultima jogada foi guardar um item, volta à sala inicial
+    else if (lastBotMoves[lastBotMoves.length - 1] == 0) {
+      console.log("- bot a ir para sala 1");
+      currentRoom[0] = 1;
+      lastBotMoves.push(4); // mover = int 4
+    }
+
+    turnoAtual++;
+  }
 
   push();
   textSize(30);
