@@ -15,37 +15,46 @@
     <link rel="stylesheet" href="main.css" />
     <title>Characters</title>
   </head>
-  <body>
+  <body class="green">
     <form id="formId" method="post" onsubmit="submitEvent(event);">
       <div class="all_characters">
-        <h4>Choose your Character</h4>
+        <h4 class="subtitle_char">Choose your Character</h4>
         <div class="character">
-          <img src="assets/bobby.png" width="250" /> </br>
+          <img src="assets/bobby.png" class="characterimg"/> </br>
           <input type="radio" id="bobby" name="character" value="bobby" />
-          <label for="bobby">Bobby Van der Meer</label>
+          <label for="bobby"></label>
         </div>
         <div class="character">
-          <img src="assets/carter.png" width="220" /></br>
+          <img src="assets/carter.png" class="characterimg"/></br>
           <input type="radio" id="carter" name="character" value="carter" />
-          <label for="carter">Carter Dawson</label>
+          <label for="carter"></label>
         </div>
         <div class="character">
-          <img src="assets/emma.png" width="220" /></br>
+          <img src="assets/emma.png" class="characterimg"/></br>
           <input type="radio" id="emma" name="character" value="emma" />
-          <label for="emma">Emma Hillberry</label>
+          <label for="emma"></label>
         </div>
       </div>
 
-      <div class="color">
-        <h4>Choose your Color</h4>
+      <div class="color" >
+        <h4 class="subtitle_char">Choose your Color</h4>
+        <div class="character">
+        <img src="assets/color1.png" class="characterimg"/></br>
         <input type="radio" id="blue" name="color" value="blue" />
-        <label for="bobby">Blue</label>
+        <label for="bobby"></label>
+        </div>
+        <div class="character">
+        <img src="assets/color3.png" class="characterimg"/></br>
         <input type="radio" id="green" name="color" value="green" />
-        <label for="carter">Green</label>
+        <label for="carter"></label>
+        </div>
+        <div class="character">
+        <img src="assets/color4.png" class="characterimg"/></br>
         <input type="radio" id="brown" name="color" value="brown" />
-        <label for="emma">Brown</label>
+        <label for="emma"></label>
+        </div>
       </div>
-      <button type="submit" value="Bora lá"></button>
+      <button type="submit" value="Bora lá">Let's Go!</button>
     </form>
 
     <script src="/socket.io/socket.io.js"></script>

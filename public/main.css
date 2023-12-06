@@ -2,6 +2,12 @@ html {
   background-color: lightgray;
 }
 
+body {
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+}
+
 /*Fonte*/
 
 canvas {
@@ -82,7 +88,6 @@ canvas {
   width: 100vw;
   height: 100vh;
   margin: 0;
-  padding: 2vw;
 }
 
 /*Botões*/
@@ -130,30 +135,53 @@ button:active {
   transform: translateY(4px);
 }
 
-
-
 /* Characters*/
 form {
   position: relative;
-  width: 65%;
-  margin: auto;
-  padding: 2%;
   text-align: center;
+  width: 100%;
 }
 
 .character {
   display: inline-block;
   position: relative;
-  width: 33%;
+  width: 20%;
   margin: auto;
 }
 
 .all_characters {
-  padding: 2%;
+  width: 100vw;
+  padding-top: 8vw;
+  padding-bottom: 3vh;
 }
 
 .color {
-  padding: 2%;
-  margin-bottom: 5%;
-  margin-top: 2%;
+  width: 100vw;
+  padding-top: 8vw;
+  padding-bottom: 3vh;
+}
+
+.characterimg {
+  position: relative;
+  left: -8vw;
+  width: 38vw;
+}
+
+.subtitle_char {
+  font-family: "Pixelify Sans", sans-serif;
+  color: #1c646c;
+  font-size: 5vw;
+
+  display: block;
+  position: relative;
+  width: 50vw;
+  background-color: #5cbcac;
+  border: #1c646c 7px double;
+  border-radius: 25px;
+  margin: auto;
+  margin-bottom: 4vh;
+}
+
+/*Radio Buttons*/
+input[type="radio"] {
 }
