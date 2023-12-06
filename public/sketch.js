@@ -245,6 +245,9 @@ function draw() {
         }
       }
       //caso contrário, procura na sala
+      if (lastBotMoves[lastBotMoves.length - 1] != 0) {
+        itens[i].encontrar(currentRoom[0]);
+      }
     }
     // se a ultima jogada foi guardar um item, volta à sala inicial
     else if (lastBotMoves[lastBotMoves.length - 1] == 0) {
