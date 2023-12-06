@@ -8,6 +8,8 @@ let playerID = [];
 let salas = [];
 let itens = [];
 let players = [];
+let characters = [];
+let colors = [];
 
 let atual = 0;
 
@@ -15,6 +17,7 @@ let guardar = 0;
 let largar = 0;
 let esconder = 0;
 let procurar = 0;
+let character = 0;
 
 let ator = 0;
 let turnoAtual = 0;
@@ -201,6 +204,13 @@ function setup() {
     console.log(currentItemAction);
   });
 
+  //Cores e Players
+  socket.on("submit", function (data) {
+    for (const [burriceburra, player] of Object.entries(data.players)) {
+      console.log(player.color);
+    }
+  });
+
   //Instancia cada um dos itens
   itens.push(new item(0, 0, -1));
   itens.push(new item(1, 2, -1));
@@ -226,7 +236,7 @@ function generateRandom(min, max, exclude) {
 function draw() {
   background(46, 55, 47);
 
-  console.log("turno" + turnoAtual + "ator " + ator);
+  //console.log("turno" + turnoAtual + "ator " + ator);
   //lista de ações do bot: guardar 0, largar 1, procurar 2, esconder 3, mover 4
   if (!isFirstMove && turnoAtual == 0) {
     console.log("Jogada do bot:");

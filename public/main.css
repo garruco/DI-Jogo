@@ -129,3 +129,29 @@ button:active {
   /*box-shadow: 0 4px #666;*/
   transform: translateY(4px);
 }
+
+/* Characters*/
+form {
+  position: relative;
+  width: 65%;
+  margin: auto;
+  padding: 2%;
+  text-align: center;
+}
+
+.character {
+  display: inline-block;
+  position: relative;
+  width: 33%;
+  margin: auto;
+}
+
+.all_characters {
+  padding: 2%;
+}
+
+.color {
+  padding: 2%;
+  margin-bottom: 5%;
+  margin-top: 2%;
+}

@@ -7,14 +7,7 @@
     <link rel="stylesheet" href="main.css" />
     <title>Interface do Telemóvel</title>
   </head>
-  <body>
-    <!--<div class="characters">
-      <button onclick="pickup(0)">Guardar</button>
-      <button onclick="drop(1)">Largar</button>
-      <button onclick="search(2)">Procurar</button>
-      <button onclick="hide(3)">Esconder</button>
-      <button onclick="">Mover</button>
-    </div>-->
+  <body class="green">
 
     <form>
       <div class="all_characters">
@@ -46,16 +39,22 @@
         <label for="emma">Brown</label>
       </div>
 
-      <input type="submit" value="Bora lá" />
+      <button onclick="submit()">Bora lá</button>
     </form>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io.connect("http://localhost:3000");
+      const colorElement = document;
 
-      //Enviar
+      socket.on("yourColor", function (color) {
+        colorElement.textContent = color;
+      });
+
+      //Submit
       function submit() {
-        socket.emit("move", {});
+        socket.emit("submit", {});
+        console.log("REI, FUNCIONA");
       }
     </script>
   </body>
