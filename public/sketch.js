@@ -24,11 +24,11 @@ let lastBotMoves = [];
 let isFirstMove = true;
 
 //Array com a posicao fixa de cada sala
-let salaX = [150, 225, 275, 550, 550];
-let salaY = [175, 375, 650, 150, 450];
+let salaX = [375, 400, 475, 725, 725];
+let salaY = [140, 325, 560, 150, 400];
 
-let salaXItem = [220, 425, 340, 750, 800];
-let salaYItem = [200, 350, 800, 160, 475];
+let salaXItem = [420, 500, 575, 820, 820];
+let salaYItem = [125, 250, 590, 100, 500];
 
 //Imagens
 let planta,
@@ -43,11 +43,12 @@ let planta,
   tesoura;
 
 //Canvas
-var w = window.innerWidth;
-var h = window.innerHeight;
+let w = window.innerWidth - 50;
+let h = window.innerHeight - 30;
+let plantaOffset = w / 2 - 150;
 
 function preload() {
-  planta = loadImage("assets/planta.png");
+  planta = loadImage("assets/planta2.png");
   inventario = loadImage("assets/inventory.png");
 
   bobby = loadImage("assets/bobby_ficha.png");
@@ -269,11 +270,14 @@ function draw() {
   pop();
 
   //planta
-  image(planta, 50, 20, 950, 950);
+  push();
+  imageMode(CENTER);
+  image(planta, plantaOffset, h / 2, h, h);
+  pop();
 
   //inventário
   for (let i = 0; i < 4; i++) {
-    image(inventario, w - 350, 0 + 150 * i);
+    image(inventario, w - 300, -75 + 150 * i, 300, 300);
   }
 
   //Desenha os players na sua sala atual
@@ -366,7 +370,7 @@ class item {
 
       push();
       imageMode(CENTER);
-      image(img, x, y, 80, 80);
+      image(img, x, y, 60, 60);
       pop();
     } else if (this.owner == -1 && this.visibility == false) {
       //fill(200, 200, 200, 128);
@@ -383,17 +387,17 @@ class item {
 
     if (this.owner != -1) {
       if (this.owner == 0) {
-        x = w - 230;
-        y = 200;
+        x = w - 185;
+        y = 115;
       } else if (this.owner == 1) {
-        x = w - 230;
-        y = 350;
+        x = w - 185;
+        y = 265;
       } else if (this.owner == 2) {
-        x = w - 230;
-        y = 500;
+        x = w - 185;
+        y = 415;
       } else if (this.owner == 3) {
-        x = w - 230;
-        y = 650;
+        x = w - 185;
+        y = 565;
       }
 
       //fill(colour);
@@ -401,7 +405,7 @@ class item {
 
       push();
       imageMode(CENTER);
-      image(img, x, y, 80, 80);
+      image(img, x, y, 60, 60);
       pop();
     }
   }
@@ -543,12 +547,8 @@ class player {
     fill(colour);
     rect(x, y, 80, 80);
     imageMode(CENTER);
-    image(img, x, y, 130, 130);
+    image(img, x, y, 100, 100);
     pop();
-
-    fill(0);
-    textSize(30);
-    text(this.playerID, x, y);
 
     this.neighbors = 0;
     this.offset = 0;
