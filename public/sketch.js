@@ -113,7 +113,7 @@ function setup() {
       }
     }
 
-    console.log(currentItemAction);
+    //console.log(currentItemAction);
   });
 
   //Quando recebe evento do socket
@@ -226,7 +226,7 @@ function generateRandom(min, max, exclude) {
 function draw() {
   background(46, 55, 47);
 
-  console.log("turno" + turnoAtual + "ator " + ator);
+  //console.log("turno" + turnoAtual + "ator " + ator);
   //lista de ações do bot: guardar 0, largar 1, procurar 2, esconder 3, mover 4
   if (!isFirstMove && turnoAtual == 0) {
     console.log("Jogada do bot:");

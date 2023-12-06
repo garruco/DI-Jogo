@@ -56,6 +56,17 @@ io.on("connection", (socket) => {
   //Envia entrada do player para o frontend
   io.emit("addPlayer", socket.id);
 
+  //characters
+  socket.on("submit", (data) => {
+    if (players[socket.id]) {
+      players[socket.id].cores = data.col;
+      players[socket.id].character = data.char;
+      console.log(data.col, data.char);
+      io.emit("changeActor", socket.id);
+      io.emit("updateGame", { players });
+    }
+  });
+
   //mover
   socket.on("move", (data) => {
     if (players[socket.id]) {
