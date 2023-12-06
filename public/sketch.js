@@ -247,6 +247,8 @@ function draw() {
       //caso contrário, procura na sala
       if (lastBotMoves[lastBotMoves.length - 1] != 0) {
         itens[i].encontrar(currentRoom[0]);
+        lastBotMoves.push(2); // procurar = int 0
+        console.log("- bot a procurar sala");
       }
     }
     // se a ultima jogada foi guardar um item, volta à sala inicial
