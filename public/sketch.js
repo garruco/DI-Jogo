@@ -140,6 +140,8 @@ function setup() {
             console.log("O player " + ator + " escondeu um item");
           } else if (player.action === 4) {
             currentRoom[ator] = player.sala;
+          } else if (player.action === 5) {
+            console.log("O player " + ator + " roubou um item");
           }
 
           if (turnoAtual < 3) {
@@ -202,6 +204,18 @@ function setup() {
     console.log(currentItemAction);
   });
 
+  socket.on("steal", function (data) {
+    for (const [cache, player] of Object.entries(data.players)) {
+      //Se nao e o partilhado
+      if (roubar != 0) {
+        currentItemAction[roubar] = player.action;
+      }
+      roubar++;
+    }
+    roubar = 0;
+    console.log(currentItemAction);
+  });
+
   //Instancia cada um dos itens
   itens.push(new item(0, 0, -1));
   itens.push(new item(1, 2, -1));
@@ -246,6 +260,7 @@ function draw() {
         }
       }
       //caso contrário, procura na sala
+
       if (lastBotMoves[lastBotMoves.length - 1] != 0) {
         itens[i].encontrar(currentRoom[0]);
         lastBotMoves.push(2); // procurar = int 0
@@ -324,6 +339,15 @@ function draw() {
     //esconder
     if (currentItemAction[ator] == 3) {
       itens[i].esconder(currentRoom[ator]);
+    }
+
+    //esconder
+    if (
+      currentItemAction[ator] == 5 &&
+      itens[i].itemCurrentRoom == -1 &&
+      itens[i].owner == 0
+    ) {
+      itens[i].roubar(ator, currentRoom[ator]);
     }
   }
 }
@@ -431,9 +455,26 @@ class item {
   }
 
   esconder(playerRoom) {
+    console.log("ESCONDER");
     if (playerRoom == this.itemCurrentRoom && this.visibility == true) {
       this.visibility = false;
     }
+  }
+
+  roubar(newOwner, playerRoom) {
+    console.log(newOwner);
+    if (playerRoom == this.itemCurrentRoom) {
+      this.itemCurrentRoom = -1;
+      this.owner = newOwner;
+    }
+    console.log(
+      "O player " +
+        ator +
+        " tentou roubar na sala " +
+        currentRoom[ator] +
+        " ao player " +
+        this.owner
+    );
   }
 }
 

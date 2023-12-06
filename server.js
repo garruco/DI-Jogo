@@ -98,6 +98,14 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("steal", (data) => {
+    if (players[socket.id]) {
+      players[socket.id].action = data.action;
+      io.emit("changeActor", socket.id);
+      io.emit("updateGame", { players });
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log("Jogador desconectou-se:", socket.id);
     // Devolver a cor ao conjunto de cores disponíveis
