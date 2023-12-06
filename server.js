@@ -32,25 +32,12 @@ io.on("connection", (socket) => {
     return;
   }
 
-  // Atribuir uma cor ao jogador
-  const playerColor = availableColors.pop();
-  //Se não sobrarem cores
-  if (!playerColor) {
-    socket.emit("error", "Não há mais cores disponíveis");
-    socket.disconnect();
-    return;
-  }
-
-  //GUI - Não faço ideia o que isto faz
-  socket.emit("yourColor", playerColor);
-
   //Atribui caracteristicas a cada player
   //GUI - Este socket id dava jeito para passar para o frontend e atribuir como controlador individual de cada boneco
   players[socket.id] = {
     playerID: socket.id,
     sala: 1,
     action: 3,
-    color: playerColor,
   };
 
   //Envia entrada do player para o frontend
