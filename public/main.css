@@ -58,8 +58,8 @@ canvas {
   font-family: "Pixelify Sans", sans-serif;
   color: #2e372f;
   margin-bottom: 0.3vw;
-  margin-top: 0.2vw;
-  margin-left: 1vw;
+  margin-top: 0.8vw;
+  margin-left: 5vw;
 }
 
 .context > .context_text,
@@ -67,11 +67,10 @@ canvas {
   /*background-color: #5cbcac;
   border: #1c646c 5px double;
   border-radius: 15px;*/
-  margin-top: 0%;
   font-family: "Pixelify Sans", sans-serif;
-  padding-left: 1vw;
+  padding-left: 5vw;
   color: #1c646c;
-  width: 29vw;
+  width: 20vw;
 }
 
 .context {
