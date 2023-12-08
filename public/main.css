@@ -21,21 +21,27 @@ canvas {
   display: block;
 }
 /* Inicio*/
+a {
+  text-decoration: none;
+}
+
+.index_container {
+  display: block;
+  position: fixed;
+  width: 100vw;
+  text-align: center;
+  align-content: center;
+}
+
 .subtitle {
   font-family: "Pixelify Sans", sans-serif;
   font-size: 2vw;
   color: #5cbcac;
   display: block;
-  position: relative;
-  margin: auto;
-  text-align: center;
-  top: -5vw;
 }
 
 .title {
-  display: block;
-  position: relative;
-  margin: auto;
+  width: 80vw;
 }
 
 /* Contexto Narrativo */
@@ -134,6 +140,14 @@ button:active {
   transform: translateY(4px);
 }
 
+#continue1 {
+  display: block;
+}
+
+#continue2 {
+  display: none;
+}
+
 /* Characters*/
 form {
   position: relative;
@@ -183,4 +197,5 @@ form {
 
 /*Radio Buttons*/
 input[type="radio"] {
+  color: black;
 }

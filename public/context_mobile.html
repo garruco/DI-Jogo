@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.js"></script>
+
+    <link rel="stylesheet" href="main.css" />
+    <title>Characters</title>
+  </head>
+  <body class="green">
+    <div class="index_container">
+      <button id="continue1" onclick="hide_show('continue1','continue2')">
+        Continue1.
+      </button>
+      <button id="continue2" onclick="">Continue2.</button>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io.connect("http://localhost:3000");
+
+      function hide_show(hide, show) {
+        let hide = document.getElementById(hide);
+        let show = document.getElementById(show);
+        show.style.display = "block";
+        hide.style.display = "none";
+      }
+    </script>
+  </body>
+</html>
