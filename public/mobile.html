@@ -14,8 +14,8 @@
     <title>Mobile Interface</title>
   </head>
   <body class="green">
-    <div>
-      <form class="select" id="formId" method="post" onsubmit="submitEvent(event);">
+    <div class="select" id="select">
+      <form id="formId" method="post" onsubmit="submitEvent(event);">
         <div class="all_characters">
           <h4 class="subtitle_char">Choose your Character</h4>
           <div class="character">
@@ -39,7 +39,7 @@
           <h4 class="subtitle_char">Choose your Color</h4>
           <div class="character">
           <img src="assets/color1.png" class="characterimg"/></br>
-          <input type="radio" id="blue" name="color" value="blue" />
+          <input type="radio" id="blue" name="color" value="light_green" />
           <label for="bobby"></label>
           </div>
           <div class="character">
@@ -49,14 +49,14 @@
           </div>
           <div class="character">
           <img src="assets/color4.png" class="characterimg"/></br>
-          <input type="radio" id="brown" name="color" value="brown" />
+          <input type="radio" id="brown" name="color" value="blue" />
           <label for="emma"></label>
           </div>
         </div>
         <button type="submit" value="Bora lá" onclick="switch_div2('select','play')">Let's Go!</button>
       </form>
     </div>
-    <div class="play">
+    <div class="play" id="play">
       <div id="actions" class="grid-container">
         <button onclick="action(0)">Save Item</button>
         <button onclick="action(1)">Drop Item</button>
