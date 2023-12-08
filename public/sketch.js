@@ -23,13 +23,6 @@ let turnoAtual = 0;
 let lastBotMoves = [];
 let isFirstMove = true;
 
-//Array com a posicao fixa de cada sala
-let salaX = [375, 400, 475, 725, 725];
-let salaY = [140, 325, 560, 150, 400];
-
-let salaXItem = [420, 500, 575, 820, 820];
-let salaYItem = [125, 250, 590, 100, 500];
-
 //Imagens
 let planta,
   inventario,
@@ -45,7 +38,32 @@ let planta,
 //Canvas
 let w = window.innerWidth - 50;
 let h = window.innerHeight - 30;
-let plantaOffset = w / 2 - 150;
+let plantaOffset = 150;
+console.log(h);
+console.log(plantaOffset);
+
+//Array com a posicao fixa de cada sala
+let salaX = [
+  plantaOffset + 0.17 * h,
+  plantaOffset + 0.25 * h,
+  plantaOffset + 0.3 * h,
+  plantaOffset + 0.7 * h,
+  plantaOffset + 0.7 * h,
+];
+let salaY = [0.21 * h, 0.5 * h, 0.83 * h, 0.22 * h, 0.58 * h];
+//let salaX = [375, 400, 475, 725, 725];
+//let salaY = [140, 325, 560, 150, 400];
+
+let salaXItem = [
+  plantaOffset + 0.24 * h,
+  plantaOffset + 0.35 * h,
+  plantaOffset + 0.45 * h,
+  plantaOffset + 0.83 * h,
+  plantaOffset + 0.83 * h,
+];
+let salaYItem = [0.19 * h, 0.38 * h, 0.87 * h, 0.13 * h, 0.68 * h];
+//let salaXItem = [420, 500, 575, 820, 820];
+//let salaYItem = [125, 250, 590, 100, 500];
 
 function preload() {
   planta = loadImage("assets/planta2.png");
@@ -156,6 +174,7 @@ function setup() {
     atual = 0;
   });
 
+  /*
   socket.on("pickup", function (data) {
     for (const [cache, player] of Object.entries(data.players)) {
       //Se nao e o partilhado
@@ -215,6 +234,19 @@ function setup() {
     roubar = 0;
     console.log(currentItemAction);
   });
+  */
+
+  socket.on("action", function (data) {
+    for (const [cache, player] of Object.entries(data.players)) {
+      //Se nao e o partilhado
+      if (playerAtual != 0) {
+        currentItemAction[playerAtual] = player.action;
+      }
+      playerAtual++;
+    }
+    playerAtual = 0;
+    console.log(currentItemAction);
+  });
 
   //Instancia cada um dos itens
   itens.push(new item(0, 0, -1));
@@ -260,7 +292,6 @@ function draw() {
         }
       }
       //caso contrário, procura na sala
-
       if (lastBotMoves[lastBotMoves.length - 1] != 0) {
         itens[i].encontrar(currentRoom[0]);
         lastBotMoves.push(2); // procurar = int 0
@@ -286,8 +317,8 @@ function draw() {
 
   //planta
   push();
-  imageMode(CENTER);
-  image(planta, plantaOffset, h / 2, h, h);
+  imageMode(CORNER);
+  image(planta, plantaOffset, 0, h, h);
   pop();
 
   //inventário
@@ -394,7 +425,7 @@ class item {
 
       push();
       imageMode(CENTER);
-      image(img, x, y, 60, 60);
+      image(img, x, y, h / 10, h / 10);
       pop();
     } else if (this.owner == -1 && this.visibility == false) {
       //fill(200, 200, 200, 128);
@@ -455,15 +486,13 @@ class item {
   }
 
   esconder(playerRoom) {
-    console.log("ESCONDER");
     if (playerRoom == this.itemCurrentRoom && this.visibility == true) {
       this.visibility = false;
     }
   }
 
   roubar(newOwner, playerRoom) {
-    console.log(newOwner);
-    if (playerRoom == this.itemCurrentRoom) {
+    if (playerRoom == currentRoom[0]) {
       this.itemCurrentRoom = -1;
       this.owner = newOwner;
     }
@@ -586,9 +615,9 @@ class player {
 
     push();
     fill(colour);
-    rect(x, y, 80, 80);
+    rect(x, y, h / 10, h / 10);
     imageMode(CENTER);
-    image(img, x, y, 100, 100);
+    image(img, x, y, h / 8, h / 8);
     pop();
 
     this.neighbors = 0;

@@ -67,9 +67,7 @@ io.on("connection", (socket) => {
     }
   });
 
-
-
-  socket.on("steal", (data) => {
+  socket.on("action", (data) => {
     if (players[socket.id]) {
       players[socket.id].action = data.action;
       io.emit("changeActor", socket.id);
@@ -89,7 +87,6 @@ io.on("connection", (socket) => {
     io.emit("removePlayer", socket.id);
 
     // Check if three players are connected after a player disconnects
-
   });
 });
 

@@ -8,7 +8,6 @@ body {
   overflow: auto;
   align-items: center;
   overflow-x: hidden;
-  
 }
 
 /*Fonte*/
@@ -21,6 +20,7 @@ canvas {
   padding-right: 0;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 10px;
   display: block;
 }
 /* Inicio*/

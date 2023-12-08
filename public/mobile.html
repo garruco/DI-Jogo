@@ -9,12 +9,12 @@
   </head>
   <body class="green">
     <div class="grid-container">
-      <button onclick="pickup(0)">Guardar</button>
-      <button onclick="drop(1)">Largar</button>
-      <button onclick="search(2)">Procurar</button>
-      <button onclick="hide(3)">Esconder</button>
+      <button onclick="action(0)">Guardar</button>
+      <button onclick="action(1)">Largar</button>
+      <button onclick="action(2)">Procurar</button>
+      <button onclick="action(3)">Esconder</button>
       <button onclick="hide_show()">Mover</button>
-      <button onclick="steal(5)">Roubar</button>
+      <button onclick="action(5)">Roubar</button>
     </div>
     <div class="move" id="hide_show" style="display: none">
       <button onclick="hideMoveDiv()" id="x">X</button>
@@ -37,9 +37,9 @@
       //Mover
       function move(sala, action) {
         socket.emit("move", { sala, action });
-        
       }
 
+      /*
       //Guardar
       function pickup(action) {
         socket.emit("pickup", { action });
@@ -63,6 +63,12 @@
       //Esconder
       function steal(action) {
         socket.emit("steal", { action });
+      }
+      */
+
+      //Ações
+      function action(action) {
+        socket.emit("action", { action });
       }
 
       //Hide Show - Mover
