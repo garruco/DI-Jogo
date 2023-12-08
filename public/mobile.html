@@ -16,16 +16,17 @@
       <button onclick="hide_show()">Mover</button>
     </div>
     <div class="move" id="hide_show" style="display: none">
-      <button onclick="move(0,4)">Mover para Sala 1</button>
-      <button onclick="move(1,4)">Mover para Sala 2</button>
-      <button onclick="move(2,4)">Mover para Sala 3</button>
-      <button onclick="move(3,4)">Mover para Sala 4</button>
-      <button onclick="move(4,4)">Mover para Sala 5</button>
+      <button onclick="hideMoveDiv()" id="x">X</button>
+      <button onclick="move(0, 4)">Mover para Sala 1</button>
+      <button onclick="move(1, 4)">Mover para Sala 2</button>
+      <button onclick="move(2, 4)">Mover para Sala 3</button>
+      <button onclick="move(3, 4)">Mover para Sala 4</button>
+      <button onclick="move(4, 4)">Mover para Sala 5</button>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      const socket = io.connect("http://localhost:3000");
+      const socket = io.connect("http://localhost:3000"); //substituir "http://localhost:3000" por "http://IPv4:3000" para jogar no mobile
       const colorElement = document;
 
       socket.on("yourColor", function (color) {
@@ -35,6 +36,7 @@
       //Mover
       function move(sala, action) {
         socket.emit("move", { sala, action });
+        
       }
 
       //Guardar
@@ -65,6 +67,11 @@
         } else {
           x.style.display = "none";
         }
+      }
+
+      function hideMoveDiv() {
+        var x = document.getElementById("hide_show");
+        x.style.display = "none";
       }
     </script>
   </body>

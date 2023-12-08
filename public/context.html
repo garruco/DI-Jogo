@@ -15,7 +15,7 @@
     <title>context</title>
   </head>
   <body class="green">
-    <div class="context">
+    <div class="context" id="context1">
       <h5 class="clock">4:00 AM</h5>
       <h3 class="context_text">
         In the Van der Meer mansion, everyone is chatting while holding their
@@ -27,8 +27,8 @@
       </h3>
     </div>
 
-    <div class="context">
-      <h5 class="clock">00:00 AM</h5>
+    <div class="context" id="context2">
+      <h5 class="clock">4:10 AM</h5>
       <h3 class="context_text">
         Suddenly, you feel something weird, it's like a dejavu. You've lived
         this already! You notice the clock, it's midnight??? You hear a familiar
@@ -36,6 +36,40 @@
         to change Amelia's fate or will it be doomed?
       </h3>
     </div>
-    <a href="/jogo.html">VAI PARA O JOGO REI</a>
+    <h5 class="clock" id="countdown">00:00</h5>
+    <script>
+      // Set the initial time (in seconds)
+      let timeLeft = 10; // 4 minutes
+
+      // Function to update the countdown clock
+      function updateClock() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        document.getElementById('countdown').innerText =
+          minutes.toString().padStart(2, '0') +
+          ':' +
+          seconds.toString().padStart(2, '0');
+      }
+
+      // Function to start the countdown
+      function startCountdown() {
+        const countdownInterval = setInterval(() => {
+          timeLeft--;
+
+          if (timeLeft < 0) {
+            clearInterval(countdownInterval);
+            // Redirect to jogo.html when the countdown reaches 00:00
+            window.location.href = './jogo.html';
+          } else {
+            updateClock();
+          }
+        }, 1000);
+      }
+
+      // Call startCountdown when the page loads
+      window.onload = startCountdown;
+    </script>
+
+    <a href="./jogo.html">VAI PARA O JOGO REI</a>
   </body>
 </html>
