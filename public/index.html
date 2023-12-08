@@ -35,31 +35,31 @@
   <h4 class="subtitle">connect your phone</h4>
   <a href="./context.html">E A HISTÓRIA?</a>
 
-  <!-- Add the following script to handle redirection and manage socket connection -->
-  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
-  <script>
-    let socket;
+    <!-- Add the following script to handle redirection and manage socket connection -->
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+      let socket;
 
-    function connectSocket() {
-      socket = io();
+      function connectSocket() {
+        socket = io();
 
-      socket.on('connect', () => {
-        console.log('Connected to the server');
-      });
+        socket.on("connect", () => {
+          console.log("Connected to the server");
+        });
 
-      // Listen for redirect event
-      socket.on('redirect', (url) => {
-        console.log('Redirecting to:', url);
-        window.location.href = url;
-      });
+        // Listen for redirect event
+        socket.on("redirect", (url) => {
+          console.log("Redirecting to:", url);
+          window.location.href = url;
+        });
 
-      socket.on('disconnect', () => {
-        console.log('Disconnected from the server');
-      });
-    }
+        socket.on("disconnect", () => {
+          console.log("Disconnected from the server");
+        });
+      }
 
-    // Connect the socket when the page loads
-    connectSocket();
-  </script>
-</body>
+      // Connect the socket when the page loads
+      connectSocket();
+    </script>
+  </body>
 </html>
