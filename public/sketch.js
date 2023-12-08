@@ -16,6 +16,8 @@ let largar = 0;
 let esconder = 0;
 let procurar = 0;
 
+let ronda = 1;
+
 let ator = 0;
 let turnoAtual = 0;
 
@@ -164,6 +166,7 @@ function setup() {
             turnoAtual++;
           } else {
             turnoAtual = 0;
+            ronda++;
           }
         }
       }
@@ -307,10 +310,11 @@ function draw() {
   }
 
   push();
-  textSize(30);
-  fill(0);
-  stroke(0);
-  text(turnoAtual, 200, 200);
+  textSize(25);
+  fill(200);
+  noStroke();
+  text(rondaToHour(ronda) + " AM", 40, 115);
+  text("Player " + turnoAtual + "'s turn.", 40, 150);
   pop();
 
   //planta
@@ -633,4 +637,27 @@ function checkInv(player) {
   }
 
   return cheio;
+}
+
+function rondaToHour(ronda) {
+  switch (ronda) {
+    case 1:
+      return "00:00";
+    case 2:
+      return "00:30";
+    case 3:
+      return "01:00";
+    case 4:
+      return "01:30";
+    case 5:
+      return "02:00";
+    case 6:
+      return "02:30";
+    case 7:
+      return "03:00";
+    case 8:
+      return "03:30";
+    case 9:
+      return "04:00";
+  }
 }

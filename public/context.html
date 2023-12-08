@@ -20,7 +20,7 @@
       <h3 class="context_text">
         In the Van der Meer mansion, everyone is chatting while holding their
         champagne glasses. You are having fun but it's been a long night.
-        Everyone is starting to say their goodbyes when a loud noise echos
+        Everyone is starting to say their goodbyes when a loud noise echoes
         through the air, chaos is installed, everyone is running around in
         panic. You all rush to the front door to find Amelia Van der Meer's body
         lying dead in the porch. What's happening? You have so many questions.
@@ -33,7 +33,7 @@
         Suddenly, you feel something weird, it's like a dejavu. You've lived
         this already! You notice the clock, it's midnight??? You hear a familiar
         voice, wait... Amelia is alive! Now the choice is yours, will you help
-        to change Amelia's fate or will it be doomed?
+        to change Amelia's fate or will it be... doomed?
       </h3>
     </div>
     <h5 class="clock" id="countdown">00:00</h5>
@@ -45,10 +45,10 @@
       function updateClock() {
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
-        document.getElementById('countdown').innerText =
-          minutes.toString().padStart(2, '0') +
-          ':' +
-          seconds.toString().padStart(2, '0');
+        document.getElementById("countdown").innerText =
+          minutes.toString().padStart(2, "0") +
+          ":" +
+          seconds.toString().padStart(2, "0");
       }
 
       // Function to start the countdown
@@ -59,7 +59,7 @@
           if (timeLeft < 0) {
             clearInterval(countdownInterval);
             // Redirect to jogo.html when the countdown reaches 00:00
-            window.location.href = './jogo.html';
+            //window.location.href = "./jogo.html";
           } else {
             updateClock();
           }
