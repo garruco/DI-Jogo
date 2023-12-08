@@ -1,5 +1,5 @@
 html {
-  background-color: lightgray;
+  background-color: rgb(46, 55, 47);
 }
 
 body {
@@ -97,32 +97,6 @@ a {
 }
 
 /*Botões*/
-.grid-container {
-  box-sizing: border-box;
-  background-color: #5cbcac;
-  display: block;
-  position: relative;
-  width: 100vw;
-  border: #1c646c 7px double;
-  border-radius: 5%;
-  padding-bottom: 2vh;
-  position: relative;
-  bottom: -13vh;
-}
-
-.move {
-  box-sizing: border-box;
-  background-color: #1c646c;
-  display: block;
-  position: relative;
-  width: 100vw;
-  border: #5cbcac 7px double;
-  border-radius: 5%;
-  padding-bottom: 2vh;
-  position: relative;
-  bottom: -13vh;
-}
-
 button {
   background: none;
   background-image: url(assets/buttons.png);
@@ -150,18 +124,6 @@ button:active {
   color: #5cbcac;
   /*box-shadow: 0 4px #666;*/
   transform: translateY(4px);
-}
-
-#continue1 {
-  display: block;
-  position: relative;
-  top: 80vh;
-}
-
-#continue2 {
-  display: none;
-  position: relative;
-  top: 80vh;
 }
 
 /* Characters*/
@@ -222,10 +184,32 @@ input[type="radio"] {
     align-items: center;
     justify-content: center;
     height: 100vh;
+    width: 100vw;
     margin: 0;
   }
 
+  #continue1 {
+    display: block;
+    position: relative;
+    top: 30vh;
+  }
+
+  #continue2 {
+    display: none;
+    position: relative;
+    top: 30vh;
+  }
+
+  .play {
+    display: none;
+  }
+
+  .select {
+    display: block;
+  }
+
   .grid-container {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -241,25 +225,18 @@ input[type="radio"] {
   }
 
   .move {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 20em;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
+    width: 20em;
     background-color: #1c646c;
     border: #5cbcac 7px double;
     border-radius: 25px;
-    z-index: 2;
-    margin-top: 7.5em;
-    margin-left: 5em;
-  }
-
-  .move button {
-    /* Your button styles for the .move div */
-    margin: 1.5vw;
-    margin-left: 2.2em;
+    text-align: center;
+    height: auto;
+    z-index: 1;
   }
 }

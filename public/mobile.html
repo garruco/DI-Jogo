@@ -14,23 +14,66 @@
     <title>Mobile Interface</title>
   </head>
   <body class="green">
-    <div class="grid-container">
-      <button onclick="action(0)">Take Item</button>
-      <button onclick="action(1)">Drop Item</button>
-      <button onclick="action(2)">Search Item</button>
-      <button onclick="action(3)">Hide Item</button>
-      <button onclick="hide_show()">Move Elsewhere</button>
-      <button onclick="action(5)">Steal Item</button>
+    <div>
+      <form class="select" id="formId" method="post" onsubmit="submitEvent(event);">
+        <div class="all_characters">
+          <h4 class="subtitle_char">Choose your Character</h4>
+          <div class="character">
+            <img src="assets/bobby.png" class="characterimg"/> </br>
+            <input type="radio" id="bobby" name="character" value="bobby" />
+            <label for="bobby"></label>
+          </div>
+          <div class="character">
+            <img src="assets/carter.png" class="characterimg"/></br>
+            <input type="radio" id="carter" name="character" value="carter" />
+            <label for="carter"></label>
+          </div>
+          <div class="character">
+            <img src="assets/emma.png" class="characterimg"/></br>
+            <input type="radio" id="emma" name="character" value="emma" />
+            <label for="emma"></label>
+          </div>
+        </div>
+  
+        <div class="color" >
+          <h4 class="subtitle_char">Choose your Color</h4>
+          <div class="character">
+          <img src="assets/color1.png" class="characterimg"/></br>
+          <input type="radio" id="blue" name="color" value="blue" />
+          <label for="bobby"></label>
+          </div>
+          <div class="character">
+          <img src="assets/color3.png" class="characterimg"/></br>
+          <input type="radio" id="green" name="color" value="green" />
+          <label for="carter"></label>
+          </div>
+          <div class="character">
+          <img src="assets/color4.png" class="characterimg"/></br>
+          <input type="radio" id="brown" name="color" value="brown" />
+          <label for="emma"></label>
+          </div>
+        </div>
+        <button type="submit" value="Bora lá" onclick="switch_div2('select','play')">Let's Go!</button>
+      </form>
     </div>
-    <div class="move" id="hide_show" style="display: none">
-      <button onclick="move(0, 4)">Move to Bathroom</button>
-      <button onclick="move(1, 4)">Move to Hall</button>
-      <button onclick="move(2, 4)">Move to Kitchen</button>
-      <button onclick="move(3, 4)">Move to Bedroom</button>
-      <button onclick="move(4, 4)">Move to Lounge</button>
-      <button onclick="hideMoveDiv()" id="x">Back</button>
+    <div class="play">
+      <div id="actions" class="grid-container">
+        <button onclick="action(0)">Save Item</button>
+        <button onclick="action(1)">Drop Item</button>
+        <button onclick="action(2)">Search For Item</button>
+        <button onclick="action(3)">Hide Item</button>
+        <button onclick="action(5)">Steal Item</button>
+        <button onclick="switch_div('actions','move')">Move to</button>
+      </div>
+      <div class="move" id="move" style="display: none">
+        <button onclick="move(0, 4)">Bathroom</button>
+        <button onclick="move(1, 4)">Hall</button>
+        <button onclick="move(2, 4)">Kitchen</button>
+        <button onclick="move(3, 4)">Bedroom</button>
+        <button onclick="move(4, 4)">Lounge</button>
+        <button onclick="switch_div('move', 'actions')" id="x">Go Back</button>
+      </div>
     </div>
-
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io.connect("http://localhost:3000"); //substituir "http://localhost:3000" por "http://IPv4:3000" para jogar no mobile
@@ -45,33 +88,6 @@
         socket.emit("move", { sala, action });
       }
 
-      /*
-      //Guardar
-      function pickup(action) {
-        socket.emit("pickup", { action });
-      }
-
-      //Largar
-      function drop(action) {
-        socket.emit("drop", { action });
-      }
-
-      //Procurar
-      function search(action) {
-        socket.emit("search", { action });
-      }
-
-      //Esconder
-      function hide(action) {
-        socket.emit("hide", { action });
-      }
-
-      //Esconder
-      function steal(action) {
-        socket.emit("steal", { action });
-      }
-      */
-
       //Ações
       function action(action) {
         socket.emit("action", { action });
@@ -81,13 +97,32 @@
       function switch_div(hide, show) {
         let h = document.getElementById(hide);
         let s = document.getElementById(show);
+        s.style.display = "flex";
+        h.style.display = "none";
+      }
+
+      function switch_div2(hide, show) {
+        let h = document.getElementById(hide);
+        let s = document.getElementById(show);
         s.style.display = "block";
         h.style.display = "none";
       }
 
-      function hideMoveDiv() {
-        var x = document.getElementById("hide_show");
-        x.style.display = "none";
+      function submitEvent(event){
+        event.preventDefault();
+
+        var formData = new FormData(event.target);
+        console.log(Object.fromEntries(formData));
+
+        sendCharacters(Object.fromEntries(formData));
+      }
+      
+      //Enviar
+      function sendCharacters(info) {
+        var char = info.character;
+        var col = info.color;
+
+        socket.emit("submit", {char, col});  
       }
     </script>
   </body>
