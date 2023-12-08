@@ -17,20 +17,24 @@
   </head>
   <body class="green">
     <div class="index_container">
-      <button id="continue1" onclick="hide_show('continue1','continue2')">
+      <button id="continue1" onclick="switch_button('continue1','continue2')">
         Continue1.
       </button>
-      <button id="continue2" onclick="">Continue2.</button>
+      <button id="continue2" onclick="game()">Continue2.</button>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io.connect("http://localhost:3000");
 
-      function hide_show(hide, show) {
-        let hide = document.getElementById(hide);
-        let show = document.getElementById(show);
-        show.style.display = "block";
-        hide.style.display = "none";
+      function switch_button(hide, show) {
+        let h = document.getElementById(hide);
+        let s = document.getElementById(show);
+        s.style.display = "block";
+        h.style.display = "none";
+      }
+
+      function game() {
+        window.location.href = "http://localhost:3000/mobile.html";
       }
     </script>
   </body>

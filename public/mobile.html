@@ -3,26 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap"
+      rel="stylesheet"
+    />
 
     <link rel="stylesheet" href="main.css" />
     <title>Interface do Telemóvel</title>
   </head>
   <body class="green">
-    <div class="grid-container">
-      <button onclick="action(0)">Guardar</button>
-      <button onclick="action(1)">Largar</button>
-      <button onclick="action(2)">Procurar</button>
-      <button onclick="action(3)">Esconder</button>
-      <button onclick="hide_show()">Mover</button>
-      <button onclick="action(5)">Roubar</button>
+    <div id="actions" class="grid-container">
+      <button onclick="pickup(0)">Save Item</button>
+      <button onclick="drop(1)">Leave Item</button>
+      <button onclick="search(2)">Search for Item</button>
+      <button onclick="hide(3)">Hide Item</button>
+      <button onclick="steal(5)">Steal Item</button>
+      <button onclick="switch_div('actions','move')">Move to</button>
     </div>
-    <div class="move" id="hide_show" style="display: none">
-      <button onclick="hideMoveDiv()" id="x">X</button>
-      <button onclick="move(0, 4)">Mover para Sala 1</button>
-      <button onclick="move(1, 4)">Mover para Sala 2</button>
-      <button onclick="move(2, 4)">Mover para Sala 3</button>
-      <button onclick="move(3, 4)">Mover para Sala 4</button>
-      <button onclick="move(4, 4)">Mover para Sala 5</button>
+    <div class="move" id="move" style="display: none">
+      <button onclick="move(0,4)">Room 1</button>
+      <button onclick="move(1,4)">Room 2</button>
+      <button onclick="move(2,4)">Room 3</button>
+      <button onclick="move(3,4)">Room 4</button>
+      <button onclick="move(4,4)">Room 5</button>
+      <button onclick="switch_div('move','actions')">Go Back</button>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -72,13 +78,11 @@
       }
 
       //Hide Show - Mover
-      function hide_show() {
-        var x = document.getElementById("hide_show");
-        if (x.style.display === "none") {
-          x.style.display = "inline-block";
-        } else {
-          x.style.display = "none";
-        }
+      function switch_div(hide, show) {
+        let h = document.getElementById(hide);
+        let s = document.getElementById(show);
+        s.style.display = "block";
+        h.style.display = "none";
       }
 
       function hideMoveDiv() {

@@ -4,7 +4,6 @@ html {
 
 body {
   padding: 0;
-  margin: 0;
   overflow: auto;
   align-items: center;
   overflow-x: hidden;
@@ -99,42 +98,29 @@ a {
 
 /*Botões*/
 .grid-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 20em;
+  box-sizing: border-box;
   background-color: #5cbcac;
+  display: block;
+  position: relative;
+  width: 100vw;
   border: #1c646c 7px double;
-  border-radius: 25px;
-  margin-right: 1vw;
-  text-align: center;
+  border-radius: 5%;
+  padding-bottom: 2vh;
+  position: relative;
+  bottom: -13vh;
 }
 
 .move {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 20em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  box-sizing: border-box;
   background-color: #1c646c;
+  display: block;
+  position: relative;
+  width: 100vw;
   border: #5cbcac 7px double;
-  border-radius: 25px;
-  z-index: 2;
-  margin-top: 0em;
-  margin-left: 0em;
-}
-
-.move button {
-  /* Your button styles for the .move div */
-  margin: 1.5vw;
-  margin-left: 2.2em;
-  height: 60px;
-  width: 250px;
+  border-radius: 5%;
+  padding-bottom: 2vh;
+  position: relative;
+  bottom: -13vh;
 }
 
 button {
@@ -143,16 +129,18 @@ button {
   background-repeat: no-repeat;
   background-position: 50% 60%;
   /* put the height and width of your image here */
-  height: 80px;
-  width: 250px;
+  height: 8vh;
+  width: 100vw;
   border: none;
+
+  padding: 0;
+  margin-top: 2vh;
 
   text-align: center;
   color: #1c646c;
   text-decoration: none;
   font-size: 16px;
   transition-duration: 0.08s;
-  margin: 1.5vw;
   font-family: "Pixelify Sans", sans-serif;
   font-weight: bold;
 }
@@ -166,10 +154,14 @@ button:active {
 
 #continue1 {
   display: block;
+  position: relative;
+  top: 80vh;
 }
 
 #continue2 {
   display: none;
+  position: relative;
+  top: 80vh;
 }
 
 /* Characters*/
