@@ -17,23 +17,25 @@ app.get("/mobile", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/mobile.html"));
 });
 
+app.get("/context", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/context.html"));
+});
+
 // Cores disponíveis para os jogadores
-//GUI - Estas são as cores dos itens, por isso alguma coisa ta meio perdida aqui
 const availableColors = ["red", "blue", "green", "yellow"];
 let players = {};
+let connectedPlayersCount = 0;
 
 io.on("connection", (socket) => {
   console.log("Um jogador conectou-se:", socket.id);
+  connectedPlayersCount++;
 
-  //Se ultrapassar os 3 players
-  if (Object.keys(players).length >= 4) {
-    socket.emit("error", "Máximo de 3 jogadores atingido");
-    socket.disconnect();
-    return;
+  if (connectedPlayersCount === 4) {
+    // Emit an event to trigger redirection on the client side
+    io.emit("redirect", "/context");
   }
 
-  //Atribui caracteristicas a cada player
-  //GUI - Este socket id dava jeito para passar para o frontend e atribuir como controlador individual de cada boneco
+  // Atribui características a cada player
   players[socket.id] = {
     playerID: socket.id,
     sala: 1,
@@ -41,21 +43,20 @@ io.on("connection", (socket) => {
     color: "green",
   };
 
-  //Envia entrada do player para o frontend
+  // Envie entrada do player para o frontend
   io.emit("addPlayer", socket.id);
 
-  //characters
+  // characters
   socket.on("submit", (data) => {
     if (players[socket.id]) {
       players[socket.id].cores = data.col;
-      //players[socket.id].character = data.char;
       console.log(data.col, data.char);
       io.emit("changeActor", socket.id);
       io.emit("updateGame", { players });
     }
   });
 
-  //mover
+  // mover
   socket.on("move", (data) => {
     if (players[socket.id]) {
       players[socket.id].sala = data.sala;
@@ -66,39 +67,7 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("pickup", (data) => {
-    if (players[socket.id]) {
-      players[socket.id].action = data.action;
-      io.emit("changeActor", socket.id);
-      io.emit("updateGame", { players });
-    }
-  });
-
-  socket.on("drop", (data) => {
-    if (players[socket.id]) {
-      players[socket.id].action = data.action;
-      io.emit("changeActor", socket.id);
-      io.emit("updateGame", { players });
-    }
-  });
-
-  socket.on("search", (data) => {
-    if (players[socket.id]) {
-      players[socket.id].action = data.action;
-      io.emit("changeActor", socket.id);
-      io.emit("updateGame", { players });
-    }
-  });
-
-  socket.on("hide", (data) => {
-    if (players[socket.id]) {
-      players[socket.id].action = data.action;
-      io.emit("changeActor", socket.id);
-      io.emit("updateGame", { players });
-    }
-  });
-
-  socket.on("steal", (data) => {
+  socket.on("action", (data) => {
     if (players[socket.id]) {
       players[socket.id].action = data.action;
       io.emit("changeActor", socket.id);
@@ -108,12 +77,16 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("Jogador desconectou-se:", socket.id);
+    connectedPlayersCount--;
+
     // Devolver a cor ao conjunto de cores disponíveis
     if (players[socket.id]) {
       availableColors.push(players[socket.id].color);
     }
     delete players[socket.id];
     io.emit("removePlayer", socket.id);
+
+    // Check if three players are connected after a player disconnects
   });
 });
 

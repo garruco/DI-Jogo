@@ -6,6 +6,8 @@ body {
   padding: 0;
   margin: 0;
   overflow: auto;
+  align-items: center;
+  overflow-x: hidden;
 }
 
 /*Fonte*/
@@ -18,6 +20,7 @@ canvas {
   padding-right: 0;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 10px;
   display: block;
 }
 /* Inicio*/
@@ -90,28 +93,48 @@ a {
 /* Background */
 .green {
   background-color: rgb(46, 55, 47);
-  width: 100vw;
   height: 100vh;
   margin: 0;
 }
 
 /*Botões*/
 .grid-container {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  width: 17%;
+  width: 20em;
   background-color: #5cbcac;
   border: #1c646c 7px double;
   border-radius: 25px;
   margin-right: 1vw;
+  text-align: center;
 }
 
 .move {
-  position: relative;
-  width: 17%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background-color: #1c646c;
   border: #5cbcac 7px double;
   border-radius: 25px;
+  z-index: 2;
+  margin-top: 0em;
+  margin-left: 0em;
+}
+
+.move button {
+  /* Your button styles for the .move div */
+  margin: 1.5vw;
+  margin-left: 2.2em;
+  height: 60px;
+  width: 250px;
 }
 
 button {
@@ -131,6 +154,7 @@ button {
   transition-duration: 0.08s;
   margin: 1.5vw;
   font-family: "Pixelify Sans", sans-serif;
+  font-weight: bold;
 }
 
 button:active {
@@ -198,4 +222,52 @@ form {
 /*Radio Buttons*/
 input[type="radio"] {
   color: black;
+}
+
+@media only screen and (max-width: 750px) {
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .grid-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 20em;
+    background-color: #5cbcac;
+    border: #1c646c 7px double;
+    border-radius: 25px;
+    text-align: center;
+    height: auto;
+    z-index: 1;
+  }
+
+  .move {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #1c646c;
+    border: #5cbcac 7px double;
+    border-radius: 25px;
+    z-index: 2;
+    margin-top: 7.5em;
+    margin-left: 5em;
+  }
+
+  .move button {
+    /* Your button styles for the .move div */
+    margin: 1.5vw;
+    margin-left: 2.2em;
+  }
 }
