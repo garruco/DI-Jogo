@@ -15,7 +15,11 @@
     <title>context</title>
   </head>
   <body class="green">
-    <div class="context" id="context1">
+    <div
+      class="context"
+      id="context1"
+      onclick="switch_div('context1','context2')"
+    >
       <h5 class="clock">4:00 AM</h5>
       <h3 class="context_text">
         In the Van der Meer mansion, everyone is chatting while holding their
@@ -28,7 +32,7 @@
     </div>
 
     <div class="context" id="context2">
-      <h5 class="clock">4:10 AM</h5>
+      <h5 class="clock">00:00 AM</h5>
       <h3 class="context_text">
         Suddenly, you feel something weird, it's like a dejavu. You've lived
         this already! You notice the clock, it's midnight??? You hear a familiar
@@ -37,5 +41,13 @@
       </h3>
     </div>
     <a href="/jogo.html">VAI PARA O JOGO REI</a>
+    <script>
+      function switch_div(hide, show) {
+        let h = document.getElementById(hide);
+        let s = document.getElementById(show);
+        s.style.display = "block";
+        h.style.display = "none";
+      }
+    </script>
   </body>
 </html>

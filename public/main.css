@@ -82,11 +82,9 @@ a {
 }
 
 .context {
+  position: relative;
+  top: 25vh;
   padding-top: 3vw;
-}
-
-.time {
-  padding-top: 5vw;
 }
 
 /* Background */
@@ -94,6 +92,14 @@ a {
   background-color: rgb(46, 55, 47);
   height: 100vh;
   margin: 0;
+}
+
+#context1 {
+  display: block;
+}
+
+#context2 {
+  display: none;
 }
 
 /*Botões*/
@@ -126,58 +132,6 @@ button:active {
   transform: translateY(4px);
 }
 
-/* Characters*/
-form {
-  position: relative;
-  text-align: center;
-  width: 100%;
-}
-
-.character {
-  display: inline-block;
-  position: relative;
-  width: 20%;
-  margin: auto;
-}
-
-.all_characters {
-  width: 100vw;
-  padding-top: 8vw;
-  padding-bottom: 3vh;
-}
-
-.color {
-  width: 100vw;
-  padding-top: 8vw;
-  padding-bottom: 3vh;
-}
-
-.characterimg {
-  position: relative;
-  left: -8vw;
-  width: 38vw;
-}
-
-.subtitle_char {
-  font-family: "Pixelify Sans", sans-serif;
-  color: #1c646c;
-  font-size: 5vw;
-
-  display: block;
-  position: relative;
-  width: 50vw;
-  background-color: #5cbcac;
-  border: #1c646c 7px double;
-  border-radius: 25px;
-  margin: auto;
-  margin-bottom: 4vh;
-}
-
-/*Radio Buttons*/
-input[type="radio"] {
-  color: black;
-}
-
 @media only screen and (max-width: 750px) {
   body {
     display: flex;
@@ -204,10 +158,72 @@ input[type="radio"] {
     display: none;
   }
 
-  .select {
-    display: block;
+  /* Characters*/
+
+  .character {
+    display: inline-block;
+    position: relative;
+    width: 20%;
+    margin: auto;
   }
 
+  .all_characters {
+    width: 100vw;
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+  }
+
+  .color {
+    padding-top: 4vh;
+    padding-bottom: 3vh;
+  }
+
+  .characterimg {
+    position: relative;
+    left: -9vw;
+    width: 42vw;
+    margin-bottom: 2vh;
+  }
+
+  .colorimg {
+    position: relative;
+    left: -8vw;
+    width: 34vw;
+  }
+
+  .subtitle_char {
+    display: block;
+    width: 100vw;
+    margin: auto;
+    font-family: "Pixelify Sans", sans-serif;
+    color: #2e372f;
+    font-size: 5vw;
+  }
+
+  /*Radio Buttons*/
+  input[type="radio"] {
+    height: 20px;
+    width: 20px;
+  }
+
+  .select {
+    display: block;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 20em;
+    background-color: #5cbcac;
+    border: #1c646c 7px double;
+    border-radius: 25px;
+    text-align: center;
+    height: auto;
+    z-index: 1;
+  }
+
+  /*Ações*/
   .grid-container {
     box-sizing: border-box;
     display: flex;

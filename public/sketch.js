@@ -313,8 +313,9 @@ function draw() {
   textSize(25);
   fill(200);
   noStroke();
-  text(rondaToHour(ronda) + " AM", 40, 115);
-  text("Player " + turnoAtual + "'s turn.", 40, 150);
+  textFont("Courier New");
+  text(rondaToHour(ronda) + " AM", 40, 80);
+  text("Player " + turnoAtual + "'s turn.", 40, 115);
   pop();
 
   //planta
