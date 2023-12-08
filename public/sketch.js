@@ -38,9 +38,7 @@ let planta,
 //Canvas
 let w = window.innerWidth - 50;
 let h = window.innerHeight - 30;
-let plantaOffset = 150;
-console.log(h);
-console.log(plantaOffset);
+let plantaOffset = 225;
 
 //Array com a posicao fixa de cada sala
 let salaX = [
