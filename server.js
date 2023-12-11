@@ -40,7 +40,8 @@ io.on("connection", (socket) => {
     playerID: socket.id,
     sala: 1,
     action: 3,
-    color: "green",
+    color: 1,
+    char: 1,
   };
 
   // Envie entrada do player para o frontend
@@ -49,10 +50,12 @@ io.on("connection", (socket) => {
   // characters
   socket.on("submit", (data) => {
     if (players[socket.id]) {
-      players[socket.id].cores = data.col;
+      players[socket.id].color = parseInt(data.col);
+      players[socket.id].char = parseInt(data.char);
       console.log(data.col, data.char);
-      io.emit("changeActor", socket.id);
-      io.emit("updateGame", { players });
+      console.log(players[socket.id].char);
+      io.emit("submit", socket.id);
+      io.emit("submit", { players });
     }
   });
 

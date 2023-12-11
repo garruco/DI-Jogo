@@ -8,8 +8,11 @@ let playerID = [];
 let salas = [];
 let itens = [];
 let players = [];
+let characters = [0, 1, 1, 1];
+let colors = [0, 1, 1, 1];
 
 let atual = 0;
+let c_atual = 0;
 
 let guardar = 0;
 let largar = 0;
@@ -28,6 +31,7 @@ let isFirstMove = true;
 //Imagens
 let planta,
   inventario,
+  inventario_assassino,
   assassino,
   bobby,
   carter,
@@ -68,6 +72,7 @@ let salaYItem = [0.19 * h, 0.38 * h, 0.87 * h, 0.13 * h, 0.68 * h];
 function preload() {
   planta = loadImage("assets/planta2.png");
   inventario = loadImage("assets/inventory.png");
+  inventario_assassino = loadImage("assets/inventorykiller.png");
 
   bobby = loadImage("assets/bobby_ficha.png");
   carter = loadImage("assets/carter_ficha.png");
@@ -236,6 +241,24 @@ function setup() {
     console.log(currentItemAction);
   });
   */
+  socket.on("submit", function (data) {
+    console.log(data);
+    for (const [cache, player] of Object.entries(data.players)) {
+      //Se nao e o partilhado
+      if (c_atual == 0) {
+        colors[c_atual] = 0;
+        characters[c_atual] = 0;
+      }
+      if (c_atual != 0) {
+        colors[c_atual] = player.color;
+        characters[c_atual] = player.char;
+      }
+      c_atual++;
+    }
+    c_atual = 0;
+    console.log(colors, characters);
+  });
+  console.log(colors, characters);
 
   socket.on("action", function (data) {
     for (const [cache, player] of Object.entries(data.players)) {
@@ -325,8 +348,18 @@ function draw() {
   pop();
 
   //inventário
-  for (let i = 0; i < 4; i++) {
-    image(inventario, w - 300, -75 + 150 * i, 300, 300);
+  for (let i = 0; i < 3; i++) {
+    //texto
+    textSize(20);
+    fill(200);
+    noStroke();
+    textFont("Courier New");
+    text("Killer", 2250, 50);
+    text("Player" + " " + (i + 1), 2250, 50 + 150 * (i + 1));
+
+    //imagem
+    image(inventario_assassino, w - 300, -75 + 0, 300, 300);
+    image(inventario, w - 300, -75 + 150 * (i + 1), 300, 300);
   }
 
   //Desenha os players na sua sala atual
@@ -526,7 +559,7 @@ class player {
     let img;
     this.currentRoom = newRoomID;
 
-    if (this.playerID == 0) {
+    /*if (this.playerID == 0) {
       colour = (44, 28, 4);
       img = assassino;
     } else if (this.playerID == 1) {
@@ -538,7 +571,81 @@ class player {
     } else if (this.playerID == 3) {
       colour = "#506c4c";
       img = emma;
+    }*/
+
+    if (this.playerID == 0) {
+      colour = (44, 28, 4);
+      img = assassino;
+    } else if (this.playerID == 1) {
+      if (colors[1] == 0) {
+        colour = (44, 28, 4);
+      } else if (colors[1] == 1) {
+        colour = "#c4f4c4";
+      } else if (colors[1] == 2) {
+        colour = "#496e49";
+      } else if (colors[1] == 3) {
+        colour = "#1c646c";
+      }
+
+      if (characters[1] == 0) {
+        img = assassino;
+      } else if (characters[1] == 1) {
+        img = bobby;
+      } else if (characters[1] == 2) {
+        img = carter;
+      } else if (characters[1] == 3) {
+        img = emma;
+      }
+
+      //img = bobby;
+    } else if (this.playerID == 2) {
+      if (colors[2] == 0) {
+        colour = (44, 28, 4);
+      } else if (colors[2] == 1) {
+        colour = "#c4f4c4";
+      } else if (colors[2] == 2) {
+        colour = "#496e49";
+      } else if (colors[2] == 3) {
+        colour = "#1c646c";
+      }
+
+      if (characters[2] == 0) {
+        img = assassino;
+      } else if (characters[2] == 1) {
+        img = bobby;
+      } else if (characters[2] == 2) {
+        img = carter;
+      } else if (characters[2] == 3) {
+        img = emma;
+      }
+      //img = carter;
+    } else if (this.playerID == 3) {
+      if (colors[3] == 0) {
+        colour = (44, 28, 4);
+      } else if (colors[3] == 1) {
+        colour = "#c4f4c4";
+      } else if (colors[3] == 2) {
+        colour = "#496e49";
+      } else if (colors[3] == 3) {
+        colour = "#1c646c";
+      }
+
+      if (characters[3] == 0) {
+        img = assassino;
+      } else if (characters[3] == 1) {
+        img = bobby;
+      } else if (characters[3] == 2) {
+        img = carter;
+      } else if (characters[3] == 3) {
+        img = emma;
+      }
+      //img = emma;
     }
+
+    //assassino: colour = (44, 28, 4); - 0
+    //light green: colour = "#c4f4c4"; - 1
+    //dark green: colour = "#496e49"; - 2
+    //blue: colour = "#1c646c"; - 3
 
     for (let i = 0; i < players.length; i++) {
       if (i != this.playerID) {
