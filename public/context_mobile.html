@@ -20,22 +20,33 @@
       <button id="continue1" onclick="switch_button('continue1','continue2')">
         Continue1.
       </button>
-      <button id="continue2" onclick="game()">Continue2.</button>
+      <button id="continue2" onclick="game(); count();">Continue2.</button>
+
     </div>
+    <!-- Add this script to include socket.io -->
     <script src="/socket.io/socket.io.js"></script>
+
     <script>
       const socket = io.connect("http://localhost:3000");
-
+    
       function switch_button(hide, show) {
         let h = document.getElementById(hide);
         let s = document.getElementById(show);
         s.style.display = "block";
         h.style.display = "none";
+    
+        // Emit an event when the "Continue1" button is clicked
+        socket.emit("continue1Clicked");
       }
 
+      function count() {
+        socket.emit("continue2Clicked");
+      }
+    
       function game() {
         window.location.href = "http://localhost:3000/mobile.html";
       }
     </script>
+
   </body>
 </html>
