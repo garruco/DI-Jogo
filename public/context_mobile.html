@@ -27,7 +27,7 @@
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-      const socket = io.connect("http://localhost:3000");
+      const socket = io.connect("http://localhost:3000"); //substituir "http://localhost:3000" por "http://IPv4:3000" para jogar no mobile
     
       function switch_button(hide, show) {
         let h = document.getElementById(hide);
@@ -44,7 +44,7 @@
       }
     
       function game() {
-        window.location.href = "http://localhost:3000/mobile.html";
+        window.location.href = "http://localhost:3000/mobile.html"; //substituir "http://localhost:3000" por "http://IPv4:3000/mobile" para jogar no mobile
       }
     </script>
 
