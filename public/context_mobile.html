@@ -39,12 +39,19 @@
         socket.emit("continue1Clicked");
       }
 
+
       function count() {
         socket.emit("continue2Clicked");
+        setTimeout(function () {
+      location.reload("http://localhost:3000/mobile.html");
+    }, 1000); 
       }
     
       function game() {
         window.location.href = "http://localhost:3000/mobile.html"; //substituir "http://localhost:3000" por "http://IPv4:3000/mobile" para jogar no mobile
+        setTimeout(function () {
+      location.reload();
+    }, 1000); 
       }
     </script>
 

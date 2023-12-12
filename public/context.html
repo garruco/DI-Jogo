@@ -33,7 +33,7 @@
 
   // Initialize the count of players who clicked "Continue1" and "Continue2"
   let playersClickedContinue1 = 0;
-  let playersClickedContinue2 = 0;
+  // let playersClickedContinue2 = 0;
 
   // Add this event listener for "continue1Clicked"
   socket.on("continue1Clicked", () => {
@@ -50,16 +50,15 @@
     }
   });
 
-  // Add this event listener for "continue2Clicked"
-  socket.on("continue2Clicked", () => {
-    // Increment the count when a player clicks "Continue2"
-    playersClickedContinue2++;
+  socket.on("continue2Clicked", (totalClicked) => {
+  // If all three players clicked "Continue2", redirect to jogo.html
+  if (totalClicked === 3) {
+    window.location.href = "http://localhost:3000/jogo.html";
+  }
+});
 
-    // If all three players clicked "Continue2", emit an event to switch context to jogo.html after a delay
-    if (playersClickedContinue2 === 3) {
-        window.location.href = "/jogo";
-    }
-  });
+  // Add this event listener for "continue2Clicked"
+  
 
 </script>
 

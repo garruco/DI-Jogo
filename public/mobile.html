@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" href="main.css" />
     <title>Mobile Interface</title>
+    
   </head>
   <body class="green">
     <div class="select" id="select">
@@ -79,6 +80,20 @@
       const socket = io.connect("http://localhost:3000"); //substituir "http://localhost:3000" por "http://IPv4:3000" para jogar no mobile
       const colorElement = document;
 
+      const hasReloaded = localStorage.getItem("hasReloaded") === "true";
+
+  socket.on("refreshMobile", () => {
+    if (!hasReloaded) {
+      // Reload the mobile.html page
+      setTimeout(function () {
+        location.reload();
+      }, 1000); // Adjust the delay as needed
+
+      // Set the flag in localStorage to avoid future reloads
+      localStorage.setItem("hasReloaded", "true");
+    }
+  });
+      
       socket.on("yourColor", function (color) {
         colorElement.textContent = color;
       });

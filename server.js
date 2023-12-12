@@ -9,7 +9,15 @@ const io = socketIo(server);
 
 app.use(express.static(path.join(__dirname, "public")));
 
+let jogoPageLoaded = false; 
+
 app.get("/jogo", (req, res) => {
+  if (!jogoPageLoaded) {
+    jogoPageLoaded = true;
+
+    // Emit a socket event to notify clients to refresh
+    io.emit("refreshMobile");
+  }
   res.sendFile(path.join(__dirname, "/public/jogo.html"));
 });
 
@@ -30,6 +38,7 @@ let players = {};
 let connectedPlayersCount = 0;
 let playersClickedContinue1 = 0;
 let playersClickedContinue2 = 0;
+
 
 io.on("connection", (socket) => {
   console.log("Um jogador conectou-se:", socket.id);
@@ -72,12 +81,6 @@ io.on("connection", (socket) => {
         io.emit("switchContext", "/context2");
       }
 
-      playersClickedContinue2++;
-
-      // If all three players clicked "Continue2", emit an event to switch context to jogo.html
-      if (playersClickedContinue2 === 3) {
-        io.emit("switchContext", "/jogo");
-      }
       
     }
   });
@@ -88,12 +91,18 @@ io.on("connection", (socket) => {
   });
 
   socket.on("continue2Clicked", () => {
+    // Increment the count when a player clicks "Continue2"
     playersClickedContinue2++;
-
+  
+    // Emit the total count to all clients
+    io.emit("continue2Clicked", playersClickedContinue2);
+  
+    // If all three players clicked "Continue2", emit an event to switch context
     if (playersClickedContinue2 === 3) {
-    io.emit("switchContext", "/jogo");
-  }
+      io.emit("switchContext", "/jogo");
+    }
   });
+ 
   
 
   // mover
