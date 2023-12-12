@@ -363,6 +363,7 @@ function draw() {
           } else if (lastBotMoves[lastBotMoves.length - 1] == 4) {
             lastBotMoves.push(5); // condição de ganhar = int 5
             console.log("entrei para ganhar");
+            displayResult("Derrota");
           }
           botComItem = true;
         }
@@ -379,6 +380,7 @@ function draw() {
 
   if (ronda == 10) {
     console.log("JOGO GANHO PELOS PLAYERS");
+    displayResult("Vitória");
   }
 
   push();
@@ -782,6 +784,28 @@ class player {
     this.neighbors = 0;
     this.offset = 0;
   }
+}
+
+function displayResult(result) {
+  // Create a div element
+  let resultDiv = createDiv(result);
+  
+  // Style the div
+  resultDiv.style('background-color', 'rgba(255, 255, 255, 0.8)');
+  resultDiv.style('padding', '20px');
+  resultDiv.style('font-size', '10em');
+  resultDiv.style('position', 'absolute');
+  resultDiv.style('top', '50%');
+  resultDiv.style('left', '50%');
+  resultDiv.style('transform', 'translate(-50%, -50%)');
+  
+  // Set a class for styling if needed
+  resultDiv.class('result-div');
+
+  // Optionally, you can remove the div after a certain amount of time
+  setTimeout(() => {
+    resultDiv.remove();
+  }, 5000); // Remove after 5 seconds (adjust the time as needed)
 }
 
 function checkInv(player) {
