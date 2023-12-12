@@ -45,7 +45,7 @@ let planta,
 //Canvas
 let w = window.innerWidth - 50;
 let h = window.innerHeight - 30;
-let plantaOffset = 225;
+let plantaOffset = 325;
 
 //Array com a posicao fixa de cada sala
 let salaX = [
@@ -388,8 +388,8 @@ function draw() {
   fill(200);
   noStroke();
   textFont("Courier New");
-  text(rondaToHour(ronda) + " AM", 40, 80);
-  text("Player " + turnoAtual + "'s turn.", 40, 115);
+  text(rondaToHour(ronda) + " AM", 55, 50 + 80);
+  text("Player " + turnoAtual + "'s turn.", 55, 50 + 115);
   pop();
 
   //planta
@@ -401,12 +401,15 @@ function draw() {
   //inventário
   for (let i = 0; i < 3; i++) {
     //texto
-    textSize(20);
+    push();
+    textSize(25);
     fill(200);
     noStroke();
     textFont("Courier New");
-    text("Killer", 2250, 50);
-    text("Player" + " " + (i + 1), 2250, 50 + 150 * (i + 1));
+    textAlign(RIGHT, CENTER);
+    text("Killer", 1175, 140);
+    text("Player" + " " + (i + 1), 1175, 140 + 150 * (i + 1));
+    pop();
 
     //imagem
     image(inventario_assassino, w - 300, -75 + 0, 300, 300);
@@ -789,18 +792,18 @@ class player {
 function displayResult(result) {
   // Create a div element
   let resultDiv = createDiv(result);
-  
+
   // Style the div
-  resultDiv.style('background-color', 'rgba(255, 255, 255, 0.8)');
-  resultDiv.style('padding', '20px');
-  resultDiv.style('font-size', '10em');
-  resultDiv.style('position', 'absolute');
-  resultDiv.style('top', '50%');
-  resultDiv.style('left', '50%');
-  resultDiv.style('transform', 'translate(-50%, -50%)');
-  
+  resultDiv.style("background-color", "rgba(255, 255, 255, 0.8)");
+  resultDiv.style("padding", "20px");
+  resultDiv.style("font-size", "10em");
+  resultDiv.style("position", "absolute");
+  resultDiv.style("top", "50%");
+  resultDiv.style("left", "50%");
+  resultDiv.style("transform", "translate(-50%, -50%)");
+
   // Set a class for styling if needed
-  resultDiv.class('result-div');
+  resultDiv.class("result-div");
 
   // Optionally, you can remove the div after a certain amount of time
   setTimeout(() => {
