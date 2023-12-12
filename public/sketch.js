@@ -340,7 +340,7 @@ function draw() {
         if (itens[i].owner == 0) {
           console.log("- bot a ir para sala 1");
           currentRoom[0] = 1;
-          lastBotMoves.push(5); // mover com vitoria = int 4
+          lastBotMoves.push(5); // ir sala um com item para ganhar = int 5
           botComItem = true;
         }
       }
