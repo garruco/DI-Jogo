@@ -23,6 +23,7 @@ let ronda = 1;
 
 let ator = 0;
 let turnoAtual = 0;
+let todas;
 
 //lista de ações do bot: guardar 0, largar 1, procurar 2, esconder 3, mover 4
 let lastBotMoves = [];
@@ -294,11 +295,16 @@ function generateRandom(min, max, exclude) {
   return random;
 }
 
+function jogoGanhoBot() {
+  console.log("BOT GANHOU JOGO");
+}
+
 function draw() {
   background(46, 55, 47);
 
   //console.log("turno" + turnoAtual + "ator " + ator);
   //lista de ações do bot: guardar 0, largar 1, procurar 2, esconder 3, mover 4
+  botComItem = false;
   if (!isFirstMove && turnoAtual == 0) {
     console.log("Jogada do bot:");
     // se a ultima jogada foi mover-se
@@ -313,23 +319,66 @@ function draw() {
           itens[i].guardar(0, currentRoom[0]);
           lastBotMoves.push(0); // guardar = int 0
           console.log("- bot a guardar item");
+          botComItem = true;
         }
       }
-      //caso contrário, procura na sala
-      if (lastBotMoves[lastBotMoves.length - 1] != 0) {
-        itens[i].encontrar(currentRoom[0]);
+      if (
+        lastBotMoves[lastBotMoves.length - 1] != 2 &&
+        currentRoom[0] != 1 &&
+        !botComItem
+      ) {
+        for (let i = 0; i < itens.length; i++)
+          itens[i].encontrar(currentRoom[0]);
         lastBotMoves.push(2); // procurar = int 0
         console.log("- bot a procurar sala");
       }
     }
-    // se a ultima jogada foi guardar um item, volta à sala inicial
+    // se a ultima jogada foi guardar um item
     else if (lastBotMoves[lastBotMoves.length - 1] == 0) {
-      console.log("- bot a ir para sala 1");
-      currentRoom[0] = 1;
-      lastBotMoves.push(4); // mover = int 4
+      // verifica se continua com o item e volta para a primeira sala
+      for (let i = 0; i < itens.length; i++) {
+        if (itens[i].owner == 0) {
+          console.log("- bot a ir para sala 1");
+          currentRoom[0] = 1;
+          lastBotMoves.push(5); // mover com vitoria = int 4
+          botComItem = true;
+        }
+      }
+      // se foi roubado, vai para outra sala aleatória sem ser a inicial
+      if (!botComItem) {
+        salaAIr = generateRandom(0, 4, [1]);
+        console.log("- bot a ir para sala " + salaAIr);
+        currentRoom[0] = salaAIr;
+        lastBotMoves.push(4); // mover = int 4
+      }
     }
-
+    // se estiver na primeira sala
+    else if ((currentRoom[0] = 1)) {
+      // verifica se continua com o item e ganha
+      for (let i = 0; i < itens.length; i++) {
+        if (itens[i].owner == 0) {
+          currentRoom[0] = 1;
+          if (lastBotMoves[lastBotMoves.length - 1] == 5) {
+            jogoGanhoBot();
+          } else if (lastBotMoves[lastBotMoves.length - 1] == 4) {
+            lastBotMoves.push(5); // condição de ganhar = int 5
+            console.log("entrei para ganhar");
+          }
+          botComItem = true;
+        }
+      } // vai para outra sala aleatória
+      if (!botComItem) {
+        salaAIr = generateRandom(0, 4, [1]);
+        console.log("- bot a ir para sala " + salaAIr);
+        currentRoom[0] = salaAIr;
+        lastBotMoves.push(4); // mover = int 4
+      }
+    }
     turnoAtual++;
+  }
+
+  if (ronda == 10) {
+    console.log("JOGO GANHO PELOS PLAYERS");
   }
 
   push();
