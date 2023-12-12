@@ -359,11 +359,11 @@ function draw() {
         if (itens[i].owner == 0) {
           currentRoom[0] = 1;
           if (lastBotMoves[lastBotMoves.length - 1] == 5) {
-            jogoGanhoBot();
+            jogoGanhoBot(displayResult("Derrota"));
           } else if (lastBotMoves[lastBotMoves.length - 1] == 4) {
             lastBotMoves.push(5); // condição de ganhar = int 5
             console.log("entrei para ganhar");
-            displayResult("Derrota");
+            
           }
           botComItem = true;
         }
@@ -378,9 +378,8 @@ function draw() {
     turnoAtual++;
   }
 
-  if (ronda == 10) {
-    console.log("JOGO GANHO PELOS PLAYERS");
-    displayResult("Vitória");
+if (ronda == 11) {
+    displayResult("Vitoria");
   }
 
   push();
