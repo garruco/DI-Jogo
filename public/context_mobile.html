@@ -21,39 +21,36 @@
         Continue1.
       </button>
       <button id="continue2" onclick="game(); count();">Continue2.</button>
-
     </div>
     <!-- Add this script to include socket.io -->
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-      const socket = io.connect("http://localhost:3000"); //substituir "http://localhost:3000" por "http://IPv4:3000" para jogar no mobile
-    
+      const socket = io.connect("http://172.20.10.6:3000"); //substituir "http://localhost:3000" por "http://IPv4:3000" para jogar no mobile
+
       function switch_button(hide, show) {
         let h = document.getElementById(hide);
         let s = document.getElementById(show);
         s.style.display = "block";
         h.style.display = "none";
-    
+
         // Emit an event when the "Continue1" button is clicked
         socket.emit("continue1Clicked");
       }
 
-
       function count() {
         socket.emit("continue2Clicked");
         setTimeout(function () {
-      location.reload("http://localhost:3000/mobile.html");
-    }, 1000); 
+          location.reload("http://172.20.10.6:3000/mobile");
+        }, 1000);
       }
-    
+
       function game() {
-        window.location.href = "http://localhost:3000/mobile.html"; //substituir "http://localhost:3000" por "http://IPv4:3000/mobile" para jogar no mobile
+        window.location.href = "http://172.20.10.6:3000/mobile"; //substituir "http://localhost:3000" por "http://IPv4:3000/mobile" para jogar no mobile
         setTimeout(function () {
-      location.reload();
-    }, 1000); 
+          location.reload();
+        }, 1000);
       }
     </script>
-
   </body>
 </html>

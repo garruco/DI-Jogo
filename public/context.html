@@ -1,66 +1,67 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.js"></script>
     <link rel="stylesheet" href="main.css" />
     <title>context</title>
-</head>
-<body class="green">
+  </head>
+  <body class="green">
     <div class="context" id="context1">
-        <h5 class="clock" id="hora">4:00 AM</h5>
-        <h3 id="contextText" class="context_text">
-            In the Van der Meer mansion, everyone is chatting while holding their
-            champagne glasses. You are having fun but it's been a long night.
-            Everyone is starting to say their goodbyes when a loud noise echoes
-            through the air, chaos is installed, everyone is running around in
-            panic. You all rush to the front door to find Amelia Van der Meer's body
-            lying dead in the porch. What's happening? You have so many questions.
-        </h3>
+      <h5 class="clock" id="hora">4:00 AM</h5>
+      <h3 id="contextText" class="context_text">
+        In the Van der Meer mansion, everyone is chatting while holding their
+        champagne glasses. You are having fun but it's been a long night.
+        Everyone is starting to say their goodbyes when a loud noise echoes
+        through the air, chaos is installed, everyone is running around in
+        panic. You all rush to the front door to find Amelia Van der Meer's body
+        lying dead in the porch. What's happening? You have so many questions.
+      </h3>
     </div>
 
-    <a href="/jogo.html">VAI PARA O JOGO REI</a>
+    <!--<a href="/jogo.html">VAI PARA O JOGO REI</a>-->
 
-<!-- Add this script to include socket.io -->
-<script src="/socket.io/socket.io.js"></script>
+    <!-- Add this script to include socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
 
-<script>
-  const socket = io.connect("http://localhost:3000");
+    <script>
+      const socket = io.connect("http://localhost:3000");
 
-  // Initialize the count of players who clicked "Continue1" and "Continue2"
-  let playersClickedContinue1 = 0;
-  // let playersClickedContinue2 = 0;
+      // Initialize the count of players who clicked "Continue1" and "Continue2"
+      let playersClickedContinue1 = 0;
+      // let playersClickedContinue2 = 0;
 
-  // Add this event listener for "continue1Clicked"
-  socket.on("continue1Clicked", () => {
-    // Increment the count when a player clicks "Continue1"
-    playersClickedContinue1++;
+      // Add this event listener for "continue1Clicked"
+      socket.on("continue1Clicked", () => {
+        // Increment the count when a player clicks "Continue1"
+        playersClickedContinue1++;
 
-    // If all three players clicked "Continue1", update the context text
-    if (playersClickedContinue1 === 3) {
-      // Your logic to update the context text
-      document.getElementById("hora").innerText = "00:00 AM";
-      document.getElementById("contextText").innerText = "Suddenly, you feel something weird, it's like a dejavu. You've lived this already! You notice the clock, it's midnight??? You hear a familiar voice, wait... Amelia is alive! Now the choice is yours, will you help to change Amelia's fate or will it be... doomed?";
+        // If all three players clicked "Continue1", update the context text
+        if (playersClickedContinue1 === 3) {
+          // Your logic to update the context text
+          document.getElementById("hora").innerText = "00:00 AM";
+          document.getElementById("contextText").innerText =
+            "Suddenly, you feel something weird, it's like a dejavu. You've lived this already! You notice the clock, it's midnight??? You hear a familiar voice, wait... Amelia is alive! Now the choice is yours, will you help to change Amelia's fate or will it be... doomed?";
 
-      // Emit an event to switch context to jogo.htm
-    }
-  });
+          // Emit an event to switch context to jogo.htm
+        }
+      });
 
-  socket.on("continue2Clicked", (totalClicked) => {
-  // If all three players clicked "Continue2", redirect to jogo.html
-  if (totalClicked === 3) {
-    window.location.href = "http://localhost:3000/jogo.html";
-  }
-});
+      socket.on("continue2Clicked", (totalClicked) => {
+        // If all three players clicked "Continue2", redirect to jogo.html
+        if (totalClicked === 3) {
+          window.location.href = "http://localhost:3000/jogo.html";
+        }
+      });
 
-  // Add this event listener for "continue2Clicked"
-  
-
-</script>
-
-</body>
+      // Add this event listener for "continue2Clicked"
+    </script>
+  </body>
 </html>

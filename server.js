@@ -9,7 +9,7 @@ const io = socketIo(server);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-let jogoPageLoaded = false; 
+let jogoPageLoaded = false;
 
 app.get("/jogo", (req, res) => {
   if (!jogoPageLoaded) {
@@ -39,7 +39,6 @@ let connectedPlayersCount = 0;
 let playersClickedContinue1 = 0;
 let playersClickedContinue2 = 0;
 
-
 io.on("connection", (socket) => {
   console.log("Um jogador conectou-se:", socket.id);
   connectedPlayersCount++;
@@ -61,8 +60,6 @@ io.on("connection", (socket) => {
   // Envie entrada do player para o frontend
   io.emit("addPlayer", socket.id);
 
-  
-
   // characters
   socket.on("submit", (data) => {
     if (players[socket.id]) {
@@ -72,19 +69,16 @@ io.on("connection", (socket) => {
       console.log(players[socket.id].char);
       io.emit("submit", socket.id);
       io.emit("submit", { players });
-  
+
       // Increment the count when a player clicks "Continue1"
       playersClickedContinue1++;
-  
+
       // If all three players clicked "Continue1", emit an event to switch context
       if (playersClickedContinue1 === 3) {
         io.emit("switchContext", "/context2");
       }
-
-      
     }
   });
-  
 
   socket.on("continue1Clicked", () => {
     socket.broadcast.emit("continue1Clicked");
@@ -93,17 +87,15 @@ io.on("connection", (socket) => {
   socket.on("continue2Clicked", () => {
     // Increment the count when a player clicks "Continue2"
     playersClickedContinue2++;
-  
+
     // Emit the total count to all clients
     io.emit("continue2Clicked", playersClickedContinue2);
-  
+
     // If all three players clicked "Continue2", emit an event to switch context
     if (playersClickedContinue2 === 3) {
       io.emit("switchContext", "/jogo");
     }
   });
- 
-  
 
   // mover
   socket.on("move", (data) => {

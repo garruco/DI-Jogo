@@ -302,6 +302,102 @@ function jogoGanhoBot() {
 function draw() {
   background(46, 55, 47);
 
+  push();
+  textSize(25);
+  fill(200);
+  noStroke();
+  textFont("Courier New");
+  text(rondaToHour(ronda) + " AM", 55, 50 + 80);
+  text("Player " + turnoAtual + "'s turn.", 55, 50 + 115);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text("Bathroom", 485, 40);
+  text("Hall", 325, 335);
+  text("Kitchen", 385, 550);
+  text("Bedroom", 1010, 140);
+  text("Lounge", 1010, 390);
+  pop();
+
+  //planta
+  push();
+  imageMode(CORNER);
+  image(planta, plantaOffset, 0, h, h);
+  pop();
+
+  //inventário
+  for (let i = 0; i < 3; i++) {
+    //texto
+    push();
+    textSize(20);
+    fill(200);
+    noStroke();
+    textFont("Courier New");
+    textAlign(LEFT, CENTER);
+    text("Killer", 1190, 40);
+    text("Player" + " " + (i + 1), 1190, 40 + 150 * (i + 1));
+    pop();
+
+    //imagem
+    image(inventario_assassino, w - 300, -75 + 0, 300, 300);
+    image(inventario, w - 300, -75 + 150 * (i + 1), 300, 300);
+  }
+
+  //Desenha os players na sua sala atual
+  for (let i = 0; i < players.length; i++) {
+    players[i].display(currentRoom[i]);
+  }
+
+  //GUI - Aqui porque é que os itens nao seguem a mesma logica de cima de dar plug ao currentRoom?
+
+  //Desenha os itens na sua sala atual
+  for (let i = 0; i < itens.length; i++) {
+    itens[i].display();
+  }
+
+  //Ações com itens
+  // Verificar todos os pares player-item para ver quais partilham a mesma sala
+
+  for (let i = 0; i < itens.length; i++) {
+    //apanhar
+
+    //Se o ator quer apanhar e o item nao e de ninguem e o ator tem o inv vazio
+    if (
+      currentItemAction[ator] == 0 &&
+      itens[i].owner == -1 &&
+      checkInv(ator) == false
+    ) {
+      itens[i].guardar(ator, currentRoom[ator]);
+    }
+
+    //largar
+    if (
+      currentItemAction[ator] == 1 &&
+      itens[i].itemCurrentRoom == -1 &&
+      itens[i].owner == ator
+    ) {
+      itens[i].largar(currentRoom[ator]);
+    }
+
+    //procurar
+    if (currentItemAction[ator] == 2) {
+      itens[i].encontrar(currentRoom[ator]);
+    }
+
+    //esconder
+    if (currentItemAction[ator] == 3) {
+      itens[i].esconder(currentRoom[ator]);
+    }
+
+    //roubar
+    if (
+      currentItemAction[ator] == 5 &&
+      itens[i].itemCurrentRoom == -1 &&
+      itens[i].owner == 0
+    ) {
+      itens[i].roubar(ator, currentRoom[ator]);
+    }
+  }
+
   //console.log("turno" + turnoAtual + "ator " + ator);
   //lista de ações do bot: guardar 0, largar 1, procurar 2, esconder 3, mover 4
   botComItem = false;
@@ -359,11 +455,10 @@ function draw() {
         if (itens[i].owner == 0) {
           currentRoom[0] = 1;
           if (lastBotMoves[lastBotMoves.length - 1] == 5) {
-            jogoGanhoBot(displayResult("Derrota"));
+            jogoGanhoBot(displayResult("You Lost :("));
           } else if (lastBotMoves[lastBotMoves.length - 1] == 4) {
             lastBotMoves.push(5); // condição de ganhar = int 5
             console.log("entrei para ganhar");
-            
           }
           botComItem = true;
         }
@@ -378,97 +473,8 @@ function draw() {
     turnoAtual++;
   }
 
-if (ronda == 11) {
-    displayResult("Vitoria");
-  }
-
-  push();
-  textSize(25);
-  fill(200);
-  noStroke();
-  textFont("Courier New");
-  text(rondaToHour(ronda) + " AM", 55, 50 + 80);
-  text("Player " + turnoAtual + "'s turn.", 55, 50 + 115);
-  pop();
-
-  //planta
-  push();
-  imageMode(CORNER);
-  image(planta, plantaOffset, 0, h, h);
-  pop();
-
-  //inventário
-  for (let i = 0; i < 3; i++) {
-    //texto
-    push();
-    textSize(25);
-    fill(200);
-    noStroke();
-    textFont("Courier New");
-    textAlign(RIGHT, CENTER);
-    text("Killer", 1175, 140);
-    text("Player" + " " + (i + 1), 1175, 140 + 150 * (i + 1));
-    pop();
-
-    //imagem
-    image(inventario_assassino, w - 300, -75 + 0, 300, 300);
-    image(inventario, w - 300, -75 + 150 * (i + 1), 300, 300);
-  }
-
-  //Desenha os players na sua sala atual
-  for (let i = 0; i < players.length; i++) {
-    players[i].display(currentRoom[i]);
-  }
-
-  //GUI - Aqui porque é que os itens nao seguem a mesma logica de cima de dar plug ao currentRoom?
-
-  //Desenha os itens na sua sala atual
-  for (let i = 0; i < itens.length; i++) {
-    itens[i].display();
-  }
-
-  //Ações com itens
-  // Verificar todos os pares player-item para ver quais partilham a mesma sala
-
-  for (let i = 0; i < itens.length; i++) {
-    //apanhar
-
-    //Se o ator quer apanhar e o item nao e de ninguem e o ator tem o inv vazio
-    if (
-      currentItemAction[ator] == 0 &&
-      itens[i].owner == -1 &&
-      checkInv(ator) == false
-    ) {
-      itens[i].guardar(ator, currentRoom[ator]);
-    }
-
-    //largar
-    if (
-      currentItemAction[ator] == 1 &&
-      itens[i].itemCurrentRoom == -1 &&
-      itens[i].owner == ator
-    ) {
-      itens[i].largar(currentRoom[ator]);
-    }
-
-    //procurar
-    if (currentItemAction[ator] == 2) {
-      itens[i].encontrar(currentRoom[ator]);
-    }
-
-    //esconder
-    if (currentItemAction[ator] == 3) {
-      itens[i].esconder(currentRoom[ator]);
-    }
-
-    //esconder
-    if (
-      currentItemAction[ator] == 5 &&
-      itens[i].itemCurrentRoom == -1 &&
-      itens[i].owner == 0
-    ) {
-      itens[i].roubar(ator, currentRoom[ator]);
-    }
+  if (ronda == 9) {
+    displayResult("You Won :)");
   }
 }
 
