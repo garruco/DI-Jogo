@@ -9,8 +9,24 @@
     <title>Shared Surface</title>
   </head>
   <body>
+    <button onclick="toggleSound()" id="bt3">Sound: Off</button>
     <div id="minimapa"></div>
     <script src="sketch.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script>
+      let audio;
+    function toggleSound() {
+      // Replace 'path/to/sound.mp3' with the actual path to your sound file
+      if (!audio) {
+        audio = new Audio('/sounds/main.wav');
+        audio.play();
+        document.querySelector('button').innerText = 'Sound: On';
+      } else {
+        audio.pause();
+        audio = null;
+        document.querySelector('button').innerText = 'Sound: Off';
+      }
+    }
+  </script>
   </body>
 </html>

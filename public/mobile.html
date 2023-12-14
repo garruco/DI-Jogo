@@ -12,7 +12,12 @@
 
     <link rel="stylesheet" href="main.css" />
     <title>Mobile Interface</title>
-    
+    <audio id="dropSound" src="./sounds/actions/drop.mp3"></audio>
+    <audio id="hideSound" src="./sounds/actions/hide.wav"></audio>
+    <audio id="searchSound" src="./sounds/actions/search.wav"></audio>
+    <audio id="saveSound" src="./sounds/actions/save.wav"></audio>
+    <audio id="stealSound" src="./sounds/actions/steal.wav"></audio>
+
   </head>
   <body class="green">
     <div class="select" id="select">
@@ -59,11 +64,11 @@
     </div>
     <div class="play" id="play">
       <div id="actions" class="grid-container">
-        <button onclick="action(0)">Save Item</button>
-        <button onclick="action(1)">Drop Item</button>
-        <button onclick="action(2)">Search For Item</button>
-        <button onclick="action(3)">Hide Item</button>
-        <button onclick="action(5)">Steal Item</button>
+        <button onclick="playSound('saveSound'); action(0)">Save Item</button>
+        <button onclick="playSound('dropSound'); action(1)">Drop Item</button>
+        <button onclick="playSound('searchSound'); action(2)">Search For Item</button>
+        <button onclick="playSound('hideSound'); action(3)">Hide Item</button>
+        <button onclick="playSound('stealSound'); action(5)">Steal Item</button>
         <button onclick="switch_div('actions','move')">Move to</button>
       </div>
       <div class="move" id="move" style="display: none">
@@ -77,7 +82,14 @@
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      const socket = io.connect("http://172.20.10.6:3000"); //substituir "http://localhost:3000" por "http://IPv4:3000" para jogar no mobile
+      function playSound(soundId) {
+        var sound = document.getElementById(soundId);
+        sound.currentTime = 0; // Rewind to the beginning to allow rapid replay
+        sound.play();
+      }
+    </script>
+    <script>
+      const socket = io.connect("http://localhost:3000"); //substituir "http://localhost:3000" por "http://IPv4:3000" para jogar no mobile
       const colorElement = document;
 
       const hasReloaded = localStorage.getItem("hasReloaded") === "true";

@@ -16,14 +16,16 @@
   </head>
   <body class="green">
     <div class="index_container">
-    <img class="title" src="assets/doomed.png"/>
-    <a href="/context.html" class="subtitle">connect your phone</h4>
+      <button onclick="toggleSound()" id="bt">Sound: Off</button>
+      <img class="title" src="assets/doomed.png" />
+      <a href="/context.html" class="subtitle">connect your phone</a>
     </div>
 
     <!-- Add the following script to handle redirection and manage socket connection -->
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script>
       let socket;
+      let audio;
 
       function connectSocket() {
         socket = io();
@@ -45,6 +47,20 @@
 
       // Connect the socket when the page loads
       connectSocket();
+
+      // Function to toggle the sound
+      function toggleSound() {
+        // Replace 'path/to/sound.mp3' with the actual path to your sound file
+        if (!audio) {
+          audio = new Audio('/sounds/main.wav');
+          audio.play();
+          document.querySelector('button').innerText = 'Sound: On';
+        } else {
+          audio.pause();
+          audio = null;
+          document.querySelector('button').innerText = 'Sound: Off';
+        }
+      }
     </script>
   </body>
 </html>

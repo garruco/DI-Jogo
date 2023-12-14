@@ -14,6 +14,7 @@
     <title>context</title>
   </head>
   <body class="green">
+    <button onclick="toggleSound()" id="bt2">Sound: Off</button>
     <div class="context" id="context1">
       <h5 class="clock" id="hora">4:00 AM</h5>
       <h3 id="contextText" class="context_text">
@@ -63,5 +64,20 @@
 
       // Add this event listener for "continue2Clicked"
     </script>
+    <script>
+      let audio;
+    function toggleSound() {
+      // Replace 'path/to/sound.mp3' with the actual path to your sound file
+      if (!audio) {
+        audio = new Audio('/sounds/context1.wav');
+        audio.play();
+        document.querySelector('button').innerText = 'Sound: On';
+      } else {
+        audio.pause();
+        audio = null;
+        document.querySelector('button').innerText = 'Sound: Off';
+      }
+    }
+  </script>
   </body>
 </html>

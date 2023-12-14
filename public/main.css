@@ -46,6 +46,27 @@ a {
   width: 80vw;
 }
 
+#bt{
+  position: absolute;
+  top: 10px;
+  margin-left: 39em;
+  z-index: 999; /* Adjust the z-index as needed */
+}
+
+#bt2{
+  position: absolute;
+  top: 10px;
+  margin-left: 39em;
+  z-index: 999; /* Adjust the z-index as needed */
+}
+
+#bt3{
+  position: absolute;
+  margin-top: 50em;
+  margin-left: 50em;
+  z-index: 999; /* Adjust the z-index as needed */
+}
+
 /* Contexto Narrativo */
 
 .context,
