@@ -46,24 +46,25 @@ a {
   width: 80vw;
 }
 
-#bt{
+#bt {
   position: absolute;
   top: 10px;
-  margin-left: 39em;
+  margin-left: 30em;
   z-index: 999; /* Adjust the z-index as needed */
 }
 
-#bt2{
+#bt2 {
   position: absolute;
   top: 10px;
-  margin-left: 39em;
+  margin-left: 30em;
   z-index: 999; /* Adjust the z-index as needed */
 }
 
-#bt3{
+#bt3 {
   position: absolute;
-  margin-top: 50em;
-  margin-left: 50em;
+  margin-top: 37em;
+  margin-left: 1rem;
+  width: 250px;
   z-index: 999; /* Adjust the z-index as needed */
 }
 

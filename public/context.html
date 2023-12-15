@@ -33,7 +33,7 @@
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-      const socket = io.connect("http://localhost:3000");
+      const socket = io.connect("http://192.168.45.237:3000");
 
       // Initialize the count of players who clicked "Continue1" and "Continue2"
       let playersClickedContinue1 = 0;
@@ -58,7 +58,7 @@
       socket.on("continue2Clicked", (totalClicked) => {
         // If all three players clicked "Continue2", redirect to jogo.html
         if (totalClicked === 3) {
-          window.location.href = "http://localhost:3000/jogo.html";
+          window.location.href = "http://192.168.45.237:3000/jogo.html";
         }
       });
 
@@ -66,18 +66,18 @@
     </script>
     <script>
       let audio;
-    function toggleSound() {
-      // Replace 'path/to/sound.mp3' with the actual path to your sound file
-      if (!audio) {
-        audio = new Audio('/sounds/context1.wav');
-        audio.play();
-        document.querySelector('button').innerText = 'Sound: On';
-      } else {
-        audio.pause();
-        audio = null;
-        document.querySelector('button').innerText = 'Sound: Off';
+      function toggleSound() {
+        // Replace 'path/to/sound.mp3' with the actual path to your sound file
+        if (!audio) {
+          audio = new Audio("/sounds/context1.wav");
+          audio.play();
+          document.querySelector("button").innerText = "Sound: On";
+        } else {
+          audio.pause();
+          audio = null;
+          document.querySelector("button").innerText = "Sound: Off";
+        }
       }
-    }
-  </script>
+    </script>
   </body>
 </html>
